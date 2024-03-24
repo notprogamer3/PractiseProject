@@ -9,6 +9,11 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 
 add_executable(Practica2_QT main.cpp
-        Data/MenuItem.cpp
-        Data/MenuItem.h)
+        src/MenuItem.cpp
+        src/MenuItem.h
+        src/Deposit.cpp
+        src/Deposit.h
+        src/Functions.cpp
+        src/Functions.h
+)
 target_link_libraries(Practica2_QT Qt6::Core ${Boost_LIBRARIES})

@@ -20,10 +20,10 @@ void MenuItem::setHidden(bool hidden) {
     MenuItem::hidden = hidden;
 }
 
-int (*MenuItem::getFunc())() {
+void (*MenuItem::getFunc())(vector<shared_ptr<Deposit>>) {
     return func;
 }
 
-void MenuItem::setFunc(int (*func)()) {
+void MenuItem::setFunc(void (*func)(vector<shared_ptr<Deposit>>)) {
     MenuItem::func = func;
 }

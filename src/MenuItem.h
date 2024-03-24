@@ -6,16 +6,21 @@
 #define PRACTICA2_QT_MENUITEM_H
 
 #include <string>
+#include "Deposit.h"
+#include "memory"
+#include "vector"
+
+
 using namespace std;
 
 class MenuItem {
 private:
     string text;
     bool hidden;
-    int (*func)();
+    void (*func)(vector<shared_ptr<Deposit>> Deps);
 
 public:
-    MenuItem(string text, bool hidden, int (*func)()) : text(text), hidden(hidden), func(func) {}
+    MenuItem(string text, bool hidden, void (*func)(vector<shared_ptr<Deposit>>)) : text(text), hidden(hidden), func(func) {}
 
     // getters and setters
     string getText() const;
@@ -24,8 +29,8 @@ public:
     bool isHidden() const;
     void setHidden(bool hidden);
 
-    int (*getFunc())();
-    void setFunc(int (*func)());
+    void (*getFunc())(vector<shared_ptr<Deposit>>);
+    void setFunc(void (*func)(vector<shared_ptr<Deposit>>));
 };
 
 #endif //PRACTICA2_QT_MENUITEM_H
