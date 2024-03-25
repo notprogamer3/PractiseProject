@@ -97,3 +97,4 @@ int Deposit::getIncome() const {
 void Deposit::setIncome(int income) {
     Income = income;
 }
+

@@ -21,6 +21,7 @@ void InputIntCheck(int &Number, int left, int right, int *skip) {
             cout << "Invalid input. Please enter a number." << endl;
             continue;
         } else {
+            cout<<"test: "<<endl;
             Number = stoi(test);
             if (Number < left or Number > right or (skip != nullptr and skip[Number - 1] == 0 and skip[1])) {
                 cout << "Invalid input. Please enter a number between " << left << " and " << right << "." << endl;
@@ -33,9 +34,9 @@ void InputIntCheck(int &Number, int left, int right, int *skip) {
 }
 
 void DepositFunctions::SaveData(vector<shared_ptr<Deposit>> Deps) {
-    ofstream fout("data.txt", ios::binary);
+    ofstream fout("data.txt");
     for (auto &i : Deps) {
-        fout.write((char *) &i, sizeof(Deposit));
+        fout<<i;
     }
     fout.close();
 }
@@ -50,7 +51,7 @@ void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> Deps) {
     fin.close();
 }
 
-void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> Deps) {
+void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps) {
     string Login;
     string Name_Surname;
     string Phone;
@@ -117,11 +118,11 @@ void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> Deps) {
     }
     cout << "Enter amount: ";
     InputIntCheck(Amount, 0, 1000000);
-    shared_ptr<Deposit> Dep(new Deposit(Login, Name_Surname, Phone, Email, Type, TimeInMonths, Amount, Percent));
-    Deps.push_back(Dep);
+    auto Dep = make_shared<Deposit>(Login, Name_Surname, Phone, Email, Type, TimeInMonths, Amount, Percent);
+    Deps->push_back(Dep);
 }
 
-void TestingData(vector<shared_ptr<Deposit>> Deps) {
+void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> Deps) {
     cout<<"Testing data: "<<endl;
     for (auto &i : Deps) {
         cout << i->getLogin() << endl;

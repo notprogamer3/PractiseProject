@@ -17,10 +17,12 @@ class MenuItem {
 private:
     string text;
     bool hidden;
-    void (*func)(vector<shared_ptr<Deposit>> Deps);
+    void (*func)(vector<shared_ptr<Deposit>> *Deps);
 
 public:
-    MenuItem(string text, bool hidden, void (*func)(vector<shared_ptr<Deposit>>)) : text(text), hidden(hidden), func(func) {}
+    MenuItem(string text, bool hidden, void (*func)(vector<shared_ptr<Deposit>>*)) : text(text), hidden(hidden), func(
+            reinterpret_cast<void (*)(vector<shared_ptr<Deposit>> *)>(reinterpret_cast<void (*)(
+                    vector<shared_ptr<Deposit>>)>(func))) {}
 
     // getters and setters
     string getText() const;
@@ -29,8 +31,8 @@ public:
     bool isHidden() const;
     void setHidden(bool hidden);
 
-    void (*getFunc())(vector<shared_ptr<Deposit>>);
-    void setFunc(void (*func)(vector<shared_ptr<Deposit>>));
+    void (*getFunc())(vector<shared_ptr<Deposit>>*);
+    void setFunc(void (*func)(vector<shared_ptr<Deposit>>*));
 };
 
 #endif //PRACTICA2_QT_MENUITEM_H

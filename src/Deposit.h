@@ -52,6 +52,20 @@ public:
 
     int getIncome() const;
     void setIncome(int Income);
+
+    friend ostream &operator<<(ostream &os, const Deposit &deposit) {
+        os << deposit.Login
+           << deposit.Name_Surname
+           << deposit.Phone
+           << deposit.Email
+           << deposit.Type
+           << to_string(deposit.TimeInMonths)
+           << to_string(deposit.Amount)
+           << to_string(deposit.Percent)
+           << to_string(deposit.Income);
+        return os;
+    };
+
 };
 
 
