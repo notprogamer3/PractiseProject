@@ -14,10 +14,10 @@ void InputIntCheck(int &Number, int left = 0, int right = 0, int *skip = nullptr
 
 
 namespace DepositFunctions {
-    void SaveData(vector<shared_ptr<Deposit>>);
-    void LoadData(vector<shared_ptr<Deposit>>);
+    void SaveData(vector<shared_ptr<Deposit>> *Deps);
+    void LoadData(vector<shared_ptr<Deposit>> *Deps);
     void AddDeposit(vector<shared_ptr<Deposit>>*);
-    void TestingData(vector<shared_ptr<Deposit>>);
+    void TestingData(vector<shared_ptr<Deposit>> *Deps);
 }
 
 #endif //PRACTICA2_QT_FUNCTIONS_H

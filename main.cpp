@@ -8,8 +8,7 @@ using namespace std;
 
 
 //TODO By priority:
-//TODO optimize shit in MenuItem.h since it looks ass but adding now working (maybe use typedef?????)
-//TODO add adding in and out file operations (<< and >>) in class decloration since it is nedded
+//TODO add adding in and out file operations (<< and >>) in class decloration since it is nedded (bassicly file writing and reading)
 //TODO add search
 //TODO Delete
 //TODO make a table print
@@ -19,7 +18,10 @@ using namespace std;
 int main() {
     vector<MenuItem> menuItems;
     vector<shared_ptr<Deposit>> Deposits;
+    DepositFunctions::LoadData(&Deposits);
+    DepositFunctions::TestingData(&Deposits);
     menuItems.push_back(MenuItem("Добавить вклад", false, &DepositFunctions::AddDeposit));
+    menuItems.push_back(MenuItem("Сохранить в базу данных", false, &DepositFunctions::SaveData));
     int *skip = new int[menuItems.size()]();
     while (true) {
         for (int i = 0; i < menuItems.size(); i++) {

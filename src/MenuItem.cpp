@@ -25,6 +25,5 @@ void (*MenuItem::getFunc())(vector<shared_ptr<Deposit>>*) {
 }
 
 void MenuItem::setFunc(void (*func)(vector<shared_ptr<Deposit>>*)) {
-    MenuItem::func = reinterpret_cast<void (*)(vector<shared_ptr<Deposit>> *)>(reinterpret_cast<void (*)(
-            vector<shared_ptr<Deposit>>)>(func));
+    MenuItem::func = func;
 }

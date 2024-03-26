@@ -6,6 +6,7 @@
 #define PRACTICA2_QT_DEPOSIT_H
 
 #include "string"
+#include "iostream"
 
 using namespace std;
 
@@ -54,7 +55,8 @@ public:
     void setIncome(int Income);
 
     friend ostream &operator<<(ostream &os, const Deposit &deposit) {
-        os << deposit.Login
+        char separator = ';';
+        os << deposit.Login << separator
            << deposit.Name_Surname
            << deposit.Phone
            << deposit.Email
@@ -66,6 +68,23 @@ public:
         return os;
     };
 
+    friend istream &operator>>(istream &is, Deposit &deposit) {
+        string t;
+        is >> deposit.Login
+           >> deposit.Name_Surname
+           >> deposit.Phone
+           >> deposit.Email
+           >> deposit.Type;
+        is >> t;
+        deposit.TimeInMonths = stoi(t);
+        is >> t;
+        deposit.Amount = stoi(t);
+        is >> t;
+        deposit.Percent = stoi(t);
+        is >> t;
+        deposit.Income = stoi(t);
+        return is;
+    };
 };
 
 

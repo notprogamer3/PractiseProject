@@ -8,6 +8,7 @@
 #include <vector>
 #include "memory"
 #include <iostream>
+#include "regex"
 
 using namespace std;
 
@@ -33,20 +34,20 @@ void InputIntCheck(int &Number, int left, int right, int *skip) {
     }
 }
 
-void DepositFunctions::SaveData(vector<shared_ptr<Deposit>> Deps) {
+void DepositFunctions::SaveData(vector<shared_ptr<Deposit>> *Deps) {
     ofstream fout("data.txt");
-    for (auto &i : Deps) {
+    for (auto &i : *Deps) {
         fout<<i;
     }
     fout.close();
 }
 
-void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> Deps) {
+void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> *Deps) {
     ifstream fin("data.txt");
     while (!fin.eof()) {
         shared_ptr<Deposit> temp( new Deposit("", "", "", "", "", 0, 0, 0));
-        fin.read((char *) &temp, sizeof(Deposit));
-        Deps.push_back(temp);
+        fin>>*temp;
+        Deps->push_back(temp);
     }
     fin.close();
 }
@@ -66,11 +67,21 @@ void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps) {
     cin >> Name_Surname;
     cout << "Enter phone: ";
     cin >> Phone;
+    regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
+//    while (!regex_match(Phone, russiaPhoneRegex)) {
+//        cout << "Введет неправильный номер телефона. Попробуйте снова: " << endl;
+//        cin >> Phone;
+//    }
     cout << "Enter email: ";
     cin >> Email;
+    regex emailRegex(R"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
+//    while (!regex_match(Email, emailRegex)) {
+//        cout << "Введена неправильная электронная почта. Попробуйте снова: " << endl;
+//        cin >> Email;
+//    }
     cout << "Enter type: ";
     cin >> Type;
-    cout << "Choose time in months: ";
+    cout << "Choose time in months: \n";
     for (int i = 0; i < 6; ++i) {
         switch (i) {
             case 0:
@@ -122,9 +133,9 @@ void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps) {
     Deps->push_back(Dep);
 }
 
-void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> Deps) {
+void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> *Deps) {
     cout<<"Testing data: "<<endl;
-    for (auto &i : Deps) {
+    for (auto &i : *Deps) {
         cout << i->getLogin() << endl;
         cout << i->getName_Surname() << endl;
         cout << i->getPhone() << endl;

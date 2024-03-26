@@ -17,12 +17,11 @@ class MenuItem {
 private:
     string text;
     bool hidden;
-    void (*func)(vector<shared_ptr<Deposit>> *Deps);
+    typedef void (*Func)(vector<shared_ptr<Deposit>>*);
+    Func func;
 
 public:
-    MenuItem(string text, bool hidden, void (*func)(vector<shared_ptr<Deposit>>*)) : text(text), hidden(hidden), func(
-            reinterpret_cast<void (*)(vector<shared_ptr<Deposit>> *)>(reinterpret_cast<void (*)(
-                    vector<shared_ptr<Deposit>>)>(func))) {}
+    MenuItem(string text, bool hidden, void (*func)(vector<shared_ptr<Deposit>>*)) : text(text), hidden(hidden), func(func) {}
 
     // getters and setters
     string getText() const;
