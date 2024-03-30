@@ -26,6 +26,10 @@ private:
 public:
     Deposit(string Login, string Name_Surname, string Phone, string Email, string Type, int TimeInMonths, int Amount, int Percent);
 
+
+    friend std::ostream& operator<<(std::ostream& os, const Deposit& dep);
+    friend std::istream& operator>>(std::istream& is, Deposit& dep);
+
     // getters and setters
     string getLogin() const;
     void setLogin(const string &Login);
@@ -54,37 +58,6 @@ public:
     int getIncome() const;
     void setIncome(int Income);
 
-    friend ostream &operator<<(ostream &os, const Deposit &deposit) {
-        char separator = ';';
-        os << deposit.Login << separator
-           << deposit.Name_Surname
-           << deposit.Phone
-           << deposit.Email
-           << deposit.Type
-           << to_string(deposit.TimeInMonths)
-           << to_string(deposit.Amount)
-           << to_string(deposit.Percent)
-           << to_string(deposit.Income);
-        return os;
-    };
-
-    friend istream &operator>>(istream &is, Deposit &deposit) {
-        string t;
-        is >> deposit.Login
-           >> deposit.Name_Surname
-           >> deposit.Phone
-           >> deposit.Email
-           >> deposit.Type;
-        is >> t;
-        deposit.TimeInMonths = stoi(t);
-        is >> t;
-        deposit.Amount = stoi(t);
-        is >> t;
-        deposit.Percent = stoi(t);
-        is >> t;
-        deposit.Income = stoi(t);
-        return is;
-    };
 };
 
 

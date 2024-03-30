@@ -37,7 +37,7 @@ void InputIntCheck(int &Number, int left, int right, int *skip) {
 void DepositFunctions::SaveData(vector<shared_ptr<Deposit>> *Deps) {
     ofstream fout("data.txt");
     for (auto &i : *Deps) {
-        fout<<i;
+        fout << *i << endl;
     }
     fout.close();
 }
@@ -45,9 +45,11 @@ void DepositFunctions::SaveData(vector<shared_ptr<Deposit>> *Deps) {
 void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> *Deps) {
     ifstream fin("data.txt");
     while (!fin.eof()) {
-        shared_ptr<Deposit> temp( new Deposit("", "", "", "", "", 0, 0, 0));
-        fin>>*temp;
-        Deps->push_back(temp);
+        shared_ptr<Deposit> temp(new Deposit("", "", "", "", "", 0, 0, 0));
+        fin >> *temp;
+        if(fin) {
+            Deps->push_back(temp);
+        }
     }
     fin.close();
 }
@@ -145,5 +147,24 @@ void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> *Deps) {
         cout << i->getAmount() << endl;
         cout << i->getPercent() << endl;
         cout << i->getIncome() << endl;
+    }
+}
+
+void DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps) {
+    cout << "Enter login: ";
+    string Login;
+    cin >> Login;
+    for (auto &i : *Deps) {
+        if (i->getLogin() == Login) {
+            cout << i->getLogin() << endl;
+            cout << i->getName_Surname() << endl;
+            cout << i->getPhone() << endl;
+            cout << i->getEmail() << endl;
+            cout << i->getType() << endl;
+            cout << i->getTimeInMonths() << endl;
+            cout << i->getAmount() << endl;
+            cout << i->getPercent() << endl;
+            cout << i->getIncome() << endl;
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace DepositFunctions {
     void LoadData(vector<shared_ptr<Deposit>> *Deps);
     void AddDeposit(vector<shared_ptr<Deposit>>*);
     void TestingData(vector<shared_ptr<Deposit>> *Deps);
+    void Search(vector<shared_ptr<Deposit>> *Deps);
 }
 
 #endif //PRACTICA2_QT_FUNCTIONS_H

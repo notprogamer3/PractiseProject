@@ -98,3 +98,14 @@ void Deposit::setIncome(int income) {
     Income = income;
 }
 
+std::ostream& operator<<(std::ostream& os, const Deposit& dep) {
+    os << dep.Login << " " << dep.Name_Surname << " " << dep.Phone << " " << dep.Email << " " << dep.Type << " "
+       << dep.TimeInMonths << " " << dep.Amount << " " << dep.Percent << " " << dep.Income;
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Deposit& dep) {
+    is >> dep.Login >> dep.Name_Surname >> dep.Phone >> dep.Email >> dep.Type
+       >> dep.TimeInMonths >> dep.Amount >> dep.Percent >> dep.Income;
+    return is;
+}
