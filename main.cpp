@@ -3,20 +3,18 @@
 #include "vector"
 #include "memory"
 #include "fstream"
+#include "boost/algorithm/string.hpp"
 #include "src/Deposit.h"
 #include "src/Functions.h"
 
 using namespace std;
 
-
-
-
+//
 int main() {
-    ofstream fout("data.txt");
+    ofstream fout("data.txt", ios::app);
     fout.close();
     vector<MenuItem> menuItems;
     vector<shared_ptr<Deposit>> Deposits;
-    DepositFunctions::LoadData(&Deposits);
     DepositFunctions::TestingData(&Deposits);
     menuItems.push_back(MenuItem("Добавить вклад", false, &DepositFunctions::AddDeposit));
     menuItems.push_back(MenuItem("Сохранить в базу данных", false, &DepositFunctions::SaveData));
@@ -40,7 +38,7 @@ int main() {
             break;
         }
         if (option > 0 && option <= menuItems.size()) {
-            void (*func)(vector<shared_ptr<Deposit>>*) = menuItems[option - 1].getFunc();
+            void (*func)(vector<shared_ptr<Deposit>> *) = menuItems[option - 1].getFunc();
             if (func != nullptr) {
                 func(&Deposits);
             }

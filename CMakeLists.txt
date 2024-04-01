@@ -3,8 +3,7 @@ project(Practica2_QT)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(Qt6 COMPONENTS Core REQUIRED)
-find_package(Boost REQUIRED)
+
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 
@@ -16,4 +15,5 @@ add_executable(Practica2_QT main.cpp
         src/Functions.cpp
         src/Functions.h
 )
-target_link_libraries(Practica2_QT Qt6::Core ${Boost_LIBRARIES})
+
+target_link_libraries(Practica2_QT ${Boost_LIBRARIES})
