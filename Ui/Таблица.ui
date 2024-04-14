@@ -6,20 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1144</width>
-    <height>706</height>
+    <width>1169</width>
+    <height>806</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QTableWidget" name="Table">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1271</width>
+      <x>50</x>
+      <y>160</y>
+      <width>1071</width>
       <height>561</height>
      </rect>
     </property>
@@ -29,26 +35,13 @@
       <height>561</height>
      </size>
     </property>
-    <row>
-     <property name="text">
-      <string>1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>3</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>4</string>
-     </property>
-    </row>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
     <column>
      <property name="text">
       <string>Login</string>
@@ -154,11 +147,11 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="BackToMenu">
     <property name="geometry">
      <rect>
       <x>980</x>
-      <y>590</y>
+      <y>730</y>
       <width>141</width>
       <height>51</height>
      </rect>
@@ -173,16 +166,69 @@
      <string>Вернуться в меню</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1144</width>
-     <height>26</height>
-    </rect>
-   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>40</y>
+      <width>711</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Поиск по</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="SearchType">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>Проценту</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Сроку</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Типу</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="SearchLine"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SearchButton">
+       <property name="text">
+        <string>Найти</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
