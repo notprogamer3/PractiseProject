@@ -10,22 +10,27 @@
 #include <vector>
 #include <QPushButton>
 #include <QObject>
+#include "Deposit.h"
 
 using namespace std;
 
 class Ui {
     std::map<std::string, QWidget*> windows;
     QApplication *app;
+    std::vector<shared_ptr<Deposit>> *Deposits;
 
 public:
 
     void ChangeTheme(QPushButton *button);
     void GetBackToMainWindow(string name);
     void SetupWindows();
-    void OpenWindow(string name);
+    void OpenTableWindow();
+    void OpenDepositWindow();
+    void TableSearch();
 
-    Ui(QApplication *app = nullptr) {
+    Ui(QApplication *app = nullptr, std::vector<shared_ptr<Deposit>> *Deps = nullptr) {
         this->app = app;
+        this->Deposits = Deps;
         SetupWindows();
     }
 

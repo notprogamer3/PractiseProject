@@ -34,7 +34,7 @@ namespace DepositFunctions {
     void TestingData(vector<shared_ptr<Deposit>> *Deps);
 
     // Поиск вклада
-    void Search(vector<shared_ptr<Deposit>> *Deps);
+    vector<shared_ptr<Deposit>> *Search(vector<shared_ptr<Deposit>> *Deps, string type, string data);
 
     // Удаление вклада
     void Delete(vector<shared_ptr<Deposit>> *Deps);

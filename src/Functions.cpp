@@ -116,25 +116,20 @@ void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps) {
         switch (i) {
             case 0:
                 cout << "1. Тип 1" << endl;
-                break;
+            break;
             case 1:
                 cout << "2. тип 2" << endl;
-                break;
-            case 2:
-                cout << "3. тип 3" << endl;
-                break;
+            break;
         }
     }
-    InputIntCheck(temp, 1, 3);
+    InputIntCheck(temp, 1, 2);
     switch (temp) {
         case 1:
             Type = "Тип_1";
             break;
         case 2:
             Type = "Тип_2";
-            break;
-        case 3:
-            Type = "Тип_3";
+            Percent+=5;
             break;
     }
     // выбор срока вклада
@@ -229,34 +224,23 @@ void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> *Deps) {
 }
 
 // Поиск вклада по параметру
-void DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps) {
+vector<shared_ptr<Deposit>> *DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps, string type, string data) {
     cout << "Введите параметр по которому хотите найти вклад: \n1.Логин\n2.Email\n3.Дата\n4.Тип\n";
+    vector<shared_ptr<Deposit>> Finded;
     int temp2;
-    InputIntCheck(temp2, 1, 4);
     // выбор параметра по которому будет производиться поиск
-    switch (temp2) {
-        case 1:
-            cout << "Введите логин: ";
-            break;
-        case 2:
-            cout << "Введите email: ";
-            break;
-        case 3:
-            cout << "Введите срок вклада (в месяцах): ";
-            break;
-        case 4:
-            cout << "Введите тип: ";
-            break;
-
+    if (type == "Сумма") {
+        temp2 = 1;
+    } else if (type == "Сроку") {
+        temp2 = 2;
+    } else if (type == "Типу") {
+        temp2 = 3;
     }
-    string data;
-    cin >> data;
     shared_ptr<Deposit> temp;
     bool flag = false;
     // поиск вклада по параметру
     for (auto &i: *Deps) {
-        if ((i->getLogin() == data and temp2 == 1) or (i->getEmail() == data and temp2 == 2) or
-            (i->getType() == data and temp2 == 4) or (to_string(i->getTimeInMonths()) == data and temp2 == 3)) {
+        if ((to_string(i->getAmount()) == data and temp2 == 1) or (to_string(i->getTimeInMonths()) == data and temp2 == 2) or (i->getType() == data and temp2 == 3)) {
             cout << "Login: "<<i->getLogin() << endl;
             cout << "Имя_фам: "<<i->getName_Surname() << endl;
             cout << "Номер: "<<i->getPhone() << endl;
@@ -266,13 +250,14 @@ void DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps) {
             cout << "Размер: " <<i->getAmount() << endl;
             cout << "Процент: " <<i->getPercent() << endl;
             cout << "Доход: " <<i->getIncome() << endl;
+            Finded.push_back(i);
             flag = true;
-
         }
     }
     if (!flag) {
         cout << "Совпадение не найдено" << endl;
     }
+    return &Finded;
 //    } else {
 //        cout << "Выберите действие: \n1.Удалить действие \n2.Выйти в меню\n" << endl;
 //        int temp1;

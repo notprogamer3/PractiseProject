@@ -1,0 +1,30 @@
+    QString type = windows["TableWindow"]->findChild<QComboBox *>("SearchType")->currentText();
+    QString data = windows["TableWindow"]->findChild<QLineEdit *>("SearchLine")->text();
+    QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
+    Table->setRowCount(0);
+    vector<shared_ptr<Deposit>> temp = DepositFunctions::Search(Deposits);
+    Table->setRowCount(temp.size());
+    for (int i = 0; i < temp.size(); i++) {
+        QTableWidgetItem *Login = new QTableWidgetItem(QString::fromStdString(temp[i]->getLogin()));
+        QTableWidgetItem *Name_Surname = new QTableWidgetItem(QString::fromStdString(temp[i]->getName_Surname()));
+        QTableWidgetItem *Phone = new QTableWidgetItem(QString::fromStdString(temp[i]->getPhone()));
+        QTableWidgetItem *Email = new QTableWidgetItem(QString::fromStdString(temp[i]->getEmail()));
+        QTableWidgetItem *Type = new QTableWidgetItem(QString::fromStdString(temp[i]->getType()));
+        QTableWidgetItem *Time = new QTableWidgetItem;
+        Time->setData(Qt::EditRole, temp[i]->getTimeInMonths());
+        QTableWidgetItem *Amount = new QTableWidgetItem;
+        Amount->setData(Qt::EditRole, temp[i]->getAmount());
+        QTableWidgetItem *Percent = new QTableWidgetItem;
+        Percent->setData(Qt::EditRole, temp[i]->getPercent());
+        QTableWidgetItem *Income = new QTableWidgetItem;
+        Income->setData(Qt::EditRole, temp[i]->getIncome());
+        Table->setItem(i, 0, Login);
+        Table->setItem(i, 1, Name_Surname);
+        Table->setItem(i, 2, Phone);
+        Table->setItem(i, 3, Email);
+        Table->setItem(i, 4, Type);
+        Table->setItem(i, 5, Time);
+        Table->setItem(i, 6, Amount);
+        Table->setItem(i, 7, Percent);
+        Table->setItem(i, 8, Income);
+    }
