@@ -28,7 +28,7 @@ namespace DepositFunctions {
     void LoadData(vector<shared_ptr<Deposit>> *Deps);
 
     // Добавление вклада
-    void AddDeposit(vector<shared_ptr<Deposit>> *);
+    string AddDeposit(vector<shared_ptr<Deposit>> *, string name, string surname, string phone, string email, string type, int sum, int percent, int time);
 
     // Вывод данных
     void TestingData(vector<shared_ptr<Deposit>> *Deps);

@@ -70,119 +70,25 @@ void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> *Deps) {
 }
 
 // Добавление вклада
-void DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps) {
-    //-------------------------------------------------------
-    // Временные переменные для создания депозита
+string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string name, string surname, string phone, string email, string type, int sum, int percent, int time) {
     string Login;
-    string Name_Surname;
-    string Phone;
-    string Email;
-    string Type;
-    int TimeInMonths;
-    int Amount;
-    int temp;
-    int Percent = 5;
-    string name;
-    string surname;
     // логин генерируется автоматически для более простого обращения после к записям
     Login = "login" + to_string(Deps->size());
-    // ввод имен и фамилии
-    cout << "Введите имя: ";
-    cin >> name;
-    cout << "Введите фамилию: ";
-    cin >> surname;
-    Name_Surname = name + "_" + surname;
-    // ввод номера телефона
-    cout << "Введите номер: ";
-    cin >> Phone;
-    regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
-    // проверка вода номера телефона
-    //    while (!regex_match(Phone, russiaPhoneRegex)) {
-//        cout << "Введет неправильный номер телефона. Попробуйте снова: " << endl;
-//        cin >> Phone;
-//    }
+
+    string Name_Surname = name + "_" + surname;
+    // regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
+    //    if (!regex_match(phone, russiaPhoneRegex)) {
+    //    return "Введет неправильный номер телефона. Попробуйте снова";
+    // }
     // ввод почты
-    cout << "Enter email: ";
-    cin >> Email;
     regex emailRegex(R"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
     // проверка вода почты
-//    while (!regex_match(Email, emailRegex)) {
-//        cout << "Введена неправильная электронная почта. Попробуйте снова: " << endl;
-//        cin >> Email;
-//    }
-    // выбор типа вклада
-    cout << "Choose type: \n";
-    for (int i = 0; i < 6; ++i) {
-        switch (i) {
-            case 0:
-                cout << "1. Тип 1" << endl;
-            break;
-            case 1:
-                cout << "2. тип 2" << endl;
-            break;
-        }
-    }
-    InputIntCheck(temp, 1, 2);
-    switch (temp) {
-        case 1:
-            Type = "Тип_1";
-            break;
-        case 2:
-            Type = "Тип_2";
-            Percent+=5;
-            break;
-    }
-    // выбор срока вклада
-    cout << "Выберите промежуток: \n";
-    for (int i = 0; i < 6; ++i) {
-        switch (i) {
-            case 0:
-                cout << "1. 3 месяцев" << endl;
-                break;
-            case 1:
-                cout << "2. 6 месяцев" << endl;
-                break;
-            case 2:
-                cout << "3. 9 месяцев" << endl;
-                break;
-            case 3:
-                cout << "4. 12 месяцев" << endl;
-                break;
-            case 4:
-                cout << "5. 18 месяцев" << endl;
-                break;
-            case 5:
-                cout << "6. 24 месяцев" << endl;
-                break;
-        }
-    }
-    InputIntCheck(temp, 1, 6);
-    switch (temp) {
-        case 1:
-            TimeInMonths = 3;
-            break;
-        case 2:
-            TimeInMonths = 6;
-            break;
-        case 3:
-            TimeInMonths = 9;
-            break;
-        case 4:
-            TimeInMonths = 12;
-            break;
-        case 5:
-            TimeInMonths = 18;
-            break;
-        case 6:
-            TimeInMonths = 24;
-            break;
-
-    }
-    cout << "Enter amount: ";
-    InputIntCheck(Amount, 0, 1000000);
-    // Динамическое создание объекта и добавление его в вектор
-    auto Dep = make_shared<Deposit>(Login, Name_Surname, Phone, Email, Type, TimeInMonths, Amount, Percent);
+    // if (!regex_match(email, emailRegex)) {
+    //     return "Введена неправильная электронная почта. Попробуйте снова" << endl;
+    // }
+    auto Dep = make_shared<Deposit>(Login, Name_Surname, phone, email, type, sum, percent, time);
     Deps->push_back(Dep);
+    return "1";
 }
 
 // Вывод данных таблицой

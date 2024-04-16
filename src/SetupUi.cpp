@@ -7,6 +7,7 @@
 #include "string"
 #include "Functions.h"
 #include "Deposit.h"
+#include "boost/container/string.hpp"
 
 
 using namespace std;
@@ -49,6 +50,7 @@ void Ui::OpenTableWindow(){
     for (int i = 0; i < Table->rowCount(); ++i) {
         Table->setRowHidden(i, false);
     }
+    Table->sortByColumn(0, Qt::AscendingOrder);
     Table->clear();
     Table->setColumnCount(9);
 
@@ -117,8 +119,9 @@ void Ui::SetupWindows()
     windows["MainWindow"] = loadUiFile(nullptr, "../Ui/Главное окно.ui");
     windows["AddDepositWindow"] = loadUiFile(nullptr, "../Ui/Добавление вклада.ui");
     windows["TableWindow"] = loadUiFile(nullptr, "../Ui/Таблица.ui");
-
     windows["MainWindow"]->show();
+
+    // MainWindow buttons
     QPushButton *button = windows["MainWindow"]->findChild<QPushButton *>("ChangeTheme");
     QPushButton *addDepositButton = windows["MainWindow"]->findChild<QPushButton *>("AddDeposit");
     QPushButton *tableButton = windows["MainWindow"]->findChild<QPushButton *>("ShowTable");
@@ -127,9 +130,34 @@ void Ui::SetupWindows()
     QObject::connect(tableButton, &QPushButton::clicked, [=, this](){OpenTableWindow();});
 
 
+    // TableWindow buttons
     QPushButton *backButton = windows["TableWindow"]->findChild<QPushButton *>("BackToMenu");
-    qDebug()<<"Here";
     QObject::connect(backButton, &QPushButton::clicked, [=, this](){GetBackToMainWindow("TableWindow");});
     QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
     QObject::connect(seatchButton, &QPushButton::clicked, [=, this](){TableSearch();});
+
+    // AddDepositWindow buttons and functionality
+    //TODO add slider Dynamic show its value + add dynamic precent calculation + add data errors check
+    QPushButton *backButton2 = windows["AddDepositWindow"]->findChild<QPushButton *>("BackToMenu");
+    QObject::connect(backButton2, &QPushButton::clicked, [=, this](){GetBackToMainWindow("AddDepositWindow");});
+    QPushButton *addButton = windows["AddDepositWindow"]->findChild<QPushButton *>("AddDepositButton");
+    QLabel *Error = windows["AddDepositWindow"]->findChild<QLabel *>("ErrorLabel");
+    QObject::connect(addButton, &QPushButton::clicked, [=, this](){
+        QLineEdit *Name = windows["AddDepositWindow"]->findChild<QLineEdit *>("Name");
+        QLineEdit *Surname= windows["AddDepositWindow"]->findChild<QLineEdit *>("Surname");
+        QLineEdit *Phone = windows["AddDepositWindow"]->findChild<QLineEdit *>("Phone");
+        QLineEdit *Email = windows["AddDepositWindow"]->findChild<QLineEdit *>("Email");
+        QComboBox *Type = windows["AddDepositWindow"]->findChild<QComboBox *>("Type");
+        QSlider *Time = windows["AddDepositWindow"]->findChild<QSlider *>("Time");
+        QLineEdit *Amount = windows["AddDepositWindow"]->findChild<QLineEdit *>("Amount");
+        QLineEdit *Percent = windows["AddDepositWindow"]->findChild<QLineEdit *>("Percent");
+        string s = DepositFunctions::AddDeposit(Deposits, Name->text().toStdString(), Surname->text().toStdString(), Phone->text().toStdString(), Email->text().toStdString(), Type->currentText().toStdString(), Time->value(), Amount->text().toInt(), Percent->text().toInt());
+        if (s != "1") {
+            Error->setText(QString::fromStdString(s));
+        } else {
+            GetBackToMainWindow("AddDepositWindow");
+        }
+
+    });
+
 }

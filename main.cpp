@@ -7,13 +7,9 @@
 #include "src/Deposit.h"
 #include "src/Functions.h"
 #include "QApplication"
-#include "QWidget"
 #include "QUiLoader"
 #include "QtCore"
-#include "QPushButton"
-#include "QStyle"
 #include "src/SetupUi.h"
-#include "map"
 
 
 
@@ -39,6 +35,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
     ofstream fout("data.txt", ios::app);
     fout.close();
+
     vector<shared_ptr<Deposit>> Deposits;
     DepositFunctions::LoadData(&Deposits);
     QApplication app(argc, argv);
