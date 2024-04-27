@@ -70,7 +70,7 @@ void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> *Deps) {
 }
 
 // Добавление вклада
-string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string name, string surname, string phone, string email, string type, int sum, int percent, int time) {
+string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string name, string surname, string phone, string email, string type, int sum, int time, int percent) {
     string Login;
     // логин генерируется автоматически для более простого обращения после к записям
     Login = "login" + to_string(Deps->size());
@@ -86,6 +86,10 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string na
     // if (!regex_match(email, emailRegex)) {
     //     return "Введена неправильная электронная почта. Попробуйте снова" << endl;
     // }
+    if (sum <= 0) {
+        return "Введена неправильная сумма";
+    }
+
     auto Dep = make_shared<Deposit>(Login, Name_Surname, phone, email, type, sum, percent, time);
     Deps->push_back(Dep);
     return "1";

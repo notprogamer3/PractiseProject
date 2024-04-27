@@ -10,6 +10,9 @@
     <height>672</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -33,7 +36,7 @@
      <string>Подтвердить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="BackToMEnu">
+   <widget class="QPushButton" name="BackToMenu">
     <property name="geometry">
      <rect>
       <x>670</x>
@@ -55,14 +58,14 @@
    <widget class="QLabel" name="TimeNumLabel">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>600</x>
       <y>380</y>
-      <width>49</width>
-      <height>16</height>
+      <width>41</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>1</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -214,7 +217,7 @@
      <item>
       <widget class="QLabel" name="PercentLabel">
        <property name="text">
-        <string>TextLabel</string>
+        <string>5</string>
        </property>
       </widget>
      </item>
@@ -238,6 +241,12 @@
        </property>
        <property name="maximum">
         <number>24</number>
+       </property>
+       <property name="pageStep">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <number>1</number>
        </property>
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
@@ -271,7 +280,7 @@
      <enum>QFrame::Shape::NoFrame</enum>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
     </property>
     <property name="scaledContents">
      <bool>false</bool>
@@ -287,5 +296,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>TimeSlider</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>TimeNumLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>610</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>610</x>
+     <y>390</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -26,6 +26,8 @@ public:
     void SetupWindows();
     void OpenTableWindow();
     void OpenDepositWindow();
+    void CloseDepositWindow();
+    void AddDepositUi();
     void TableSearch();
 
     Ui(QApplication *app = nullptr, std::vector<shared_ptr<Deposit>> *Deps = nullptr) {

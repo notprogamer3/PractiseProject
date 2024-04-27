@@ -1,4 +1,6 @@
 #include <iostream>
+#include <qstylefactory.h>
+
 #include "src/MenuItem.h"
 #include "vector"
 #include "memory"
@@ -39,6 +41,8 @@ int main(int argc, char *argv[]) {
     vector<shared_ptr<Deposit>> Deposits;
     DepositFunctions::LoadData(&Deposits);
     QApplication app(argc, argv);
+    qDebug()<<QStyleFactory::keys();
+    qDebug()<<app.style();
     Ui ui(&app, &Deposits);
 
 
