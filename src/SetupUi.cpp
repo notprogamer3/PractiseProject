@@ -7,6 +7,7 @@
 #include "string"
 #include "Functions.h"
 #include "Deposit.h"
+#include "unordered_map"
 #include "boost/container/string.hpp"
 
 
@@ -152,7 +153,7 @@ void Ui::AddDepositUi() {
     string s = DepositFunctions::AddDeposit(Deposits, Name->text().toStdString(), Surname->text().toStdString(),
                                             Phone->text().toStdString(), Email->text().toStdString(),
                                             Type->currentText().toStdString(), Amount->text().toInt(),
-                                            Percent->text().toInt(), Time->value());
+                                            Time->value(), Percent->text().toInt());
     if (s != "1") {
         Error->setText(QString::fromStdString(s));
     } else {
@@ -164,23 +165,92 @@ void Ui::AddDepositUi() {
         Type->setCurrentIndex(0);
         Time->setValue(1);
         Amount->clear();
-        Percent->setText("");
+        Percent->setText("5");
         Error->clear();
         TimeLabel->setText("1");
         GetBackToMainWindow("AddDepositWindow");
     }
 }
 
-
+void Ui::DrawDiagram(QGraphicsScene *scene) {
+    QComboBox *DiagramType = windows["DiagramWindow"]->findChild<QComboBox *>("DiagramType");
+    if (DiagramType->currentText() == "Сумме") {
+        int sum = 0;
+        // Calculate sum of all deposits and Top10 deposits
+        vector<shared_ptr<Deposit> > Top10;
+        for (auto &i: *Deposits) {
+            if (Top10.size() < 10) {
+                Top10.push_back(i);
+            } else {
+                for (int j = 0; j < Top10.size(); j++) {
+                    if (Top10[j]->getAmount() < i->getAmount()) {
+                        Top10[j] = i;
+                        break;
+                    }
+                }
+            }
+        }
+        std::sort(Top10.begin(), Top10.end(), [](const shared_ptr<Deposit> &a, const shared_ptr<Deposit> &b) {
+            return a->getAmount() > b->getAmount();
+        });
+        int startAngle = 0;
+        for (auto &i: *Deposits) {
+            sum += i->getAmount();
+        }
+        // Draw top 10 deposits in a circle diagram
+        QGraphicsEllipseItem *elips;
+        double percent;
+        const QBrush colors[10] = {
+            Qt::red, Qt::green, Qt::blue, Qt::yellow, Qt::cyan, Qt::magenta, Qt::gray, Qt::darkRed, Qt::darkGreen,
+            Qt::darkBlue
+        };
+        for (int i = Top10.size() - 1; i != -1; i--) {
+            percent = (Top10[i]->getAmount() * 1.0 * 340 * 16) / sum + 32;
+            elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(colors[i]));
+            elips->setStartAngle(startAngle);
+            elips->setSpanAngle(percent);
+            startAngle += percent;
+        }
+    } else if (DiagramType->currentText() == "Типу") {
+        int t1 = 0, t2 = 0, t3 = 0;
+        for (auto &i: *Deposits) {
+            if (i->getType() == "тип_1") {
+                t1++;
+            } else if (i->getType() == "тип_2") {
+                t2++;
+            } else {
+                t3++;
+            }
+        }
+        // Draw diagram of deposit types
+        QGraphicsEllipseItem *elips;
+        double percent, startAngle;
+        elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::red));
+        percent = (t1 * 1.0 * 360 * 16) / (t1 + t2 + t3);
+        elips->setSpanAngle(percent);
+        startAngle += percent;
+        elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::green));
+        percent = (t2 * 1.0 * 360 * 16) / (t1 + t2 + t3);
+        elips->setStartAngle(startAngle);
+        elips->setSpanAngle(percent);
+        startAngle += percent;
+        elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::blue));
+        percent = (t3 * 1.0 * 360 * 16) / (t1 + t2 + t3);
+        elips->setStartAngle(startAngle);
+        elips->setSpanAngle(percent);
+    }
+}
 
 
 //TODO загнать в отедльные функции все что написано черезе лямбду
 void Ui::SetupWindows() {
+    // Load all windows and vars
     windows["MainWindow"] = loadUiFile(nullptr, "../Ui/Главное окно.ui");
     windows["AddDepositWindow"] = loadUiFile(nullptr, "../Ui/Добавление вклада.ui");
     windows["TableWindow"] = loadUiFile(nullptr, "../Ui/Таблица.ui");
     windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
     windows["MainWindow"]->show();
+    QGraphicsScene *scene = new QGraphicsScene;
 
     // MainWindow buttons and functionality
     QPushButton *button = windows["MainWindow"]->findChild<QPushButton *>("ChangeTheme");
@@ -193,10 +263,12 @@ void Ui::SetupWindows() {
     QObject::connect(DiagramButton, &QPushButton::clicked, [=, this]() {
         windows["MainWindow"]->hide();
         windows["DiagramWindow"]->show();
+        DrawDiagram(scene);
     });
 
 
     // TableWindow buttons and functionality
+    qDebug() << "TableWindowINIT";
     QPushButton *backButton = windows["TableWindow"]->findChild<QPushButton *>("BackToMenu");
     //Closing TableWindow and clearing lines
     QObject::connect(backButton, &QPushButton::clicked, [=, this]() {
@@ -208,14 +280,14 @@ void Ui::SetupWindows() {
         GetBackToMainWindow("TableWindow");
     });
     QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
-    QObject::connect(seatchButton, &QPushButton::clicked,  [=, this] {TableSearch();});
+    QObject::connect(seatchButton, &QPushButton::clicked, [=, this] { TableSearch(); });
     //Sorting lambda
     QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
     Table->setSortingEnabled(false);
     QObject::connect(Table->horizontalHeader(), &QHeaderView::sectionClicked, [=, this](const int logicalIndex) {
-        if (logicalIndex == 0 or (logicalIndex >=4 and logicalIndex <= 6)){
+        if (logicalIndex == 0 or (logicalIndex >= 4 and logicalIndex <= 6)) {
             Table->sortByColumn(logicalIndex, Qt::AscendingOrder);
-    }
+        }
     });
     //Edit toggle
     Table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -230,6 +302,7 @@ void Ui::SetupWindows() {
 
 
     // AddDepositWindow buttons and functionality
+    qDebug() << "DepositWindowINIT";
     QPushButton *backButton2 = windows["AddDepositWindow"]->findChild<QPushButton *>("BackToMenu");
     QLabel *PercentLabel = windows["AddDepositWindow"]->findChild<QLabel *>("PercentLabel");
     QComboBox *Type = windows["AddDepositWindow"]->findChild<QComboBox *>("TypeOption");
@@ -241,27 +314,24 @@ void Ui::SetupWindows() {
             PercentLabel->setText("10");
         }
     });
-    QObject::connect(backButton2, &QPushButton::clicked, [=, this] {CloseDepositWindow();});
+    QObject::connect(backButton2, &QPushButton::clicked, [=, this] { CloseDepositWindow(); });
     QPushButton *addButton = windows["AddDepositWindow"]->findChild<QPushButton *>("AddDepositButton");
-    QObject::connect(addButton, &QPushButton::clicked, [=, this] {AddDepositUi();});
+    QObject::connect(addButton, &QPushButton::clicked, [=, this] { AddDepositUi(); });
 
 
     //DiagramWindow buttons and functionality
+    qDebug() << "DiagramWindowINIT";
     QPushButton *backButton3 = windows["DiagramWindow"]->findChild<QPushButton *>("BackToMenu");
-    QObject::connect(backButton3, &QPushButton::clicked, [=, this]() { GetBackToMainWindow("DiagramWindow"); });
+    QComboBox *DiagramType = windows["DiagramWindow"]->findChild<QComboBox *>("DiagramType");
+    QObject::connect(backButton3, &QPushButton::clicked, [=, this]() {
+        DiagramType->setCurrentIndex(0);
+        GetBackToMainWindow("DiagramWindow");
+    });
     QGraphicsView *Diagram = windows["DiagramWindow"]->findChild<QGraphicsView *>("Diagram");
-    QGraphicsScene *scene = new QGraphicsScene;
+
+    QObject::connect(DiagramType, &QComboBox::currentTextChanged, [=, this]() {
+        DrawDiagram(scene);
+    });
     Diagram->setScene(scene);
     //Draw circle diagram
-    int sum = 0;
-    for (auto &i: *Deposits) {
-        sum += i->getAmount();
-    }
-    int startAngle = 0;
-    for (auto &i: *Deposits) {
-        int angle = (i->getAmount() * 360) / sum;
-        scene->addEllipse(0, 0, 200, 200, QPen(Qt::black), QBrush(Qt::red))->setStartAngle(startAngle);
-        scene->addEllipse(0, 0, 200, 200, QPen(Qt::black), QBrush(Qt::red))->setSpanAngle(angle);
-        startAngle += angle;
-    }
 }

@@ -90,7 +90,7 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string na
         return "Введена неправильная сумма";
     }
 
-    auto Dep = make_shared<Deposit>(Login, Name_Surname, phone, email, type, sum, percent, time);
+    auto Dep = make_shared<Deposit>(Login, Name_Surname, phone, email, type, time, sum, percent);
     Deps->push_back(Dep);
     return "1";
 }

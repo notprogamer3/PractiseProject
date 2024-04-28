@@ -4,13 +4,11 @@
 
 #ifndef SETUPUI_H
 #define SETUPUI_H
-
-
-
 #include <vector>
 #include <QPushButton>
 #include <QObject>
 #include "Deposit.h"
+#include <QtWidgets>
 
 using namespace std;
 
@@ -29,6 +27,7 @@ public:
     void CloseDepositWindow();
     void AddDepositUi();
     void TableSearch();
+    void DrawDiagram(QGraphicsScene *scene);
 
     Ui(QApplication *app = nullptr, std::vector<shared_ptr<Deposit>> *Deps = nullptr) {
         this->app = app;
