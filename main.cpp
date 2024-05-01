@@ -15,10 +15,8 @@
 
 
 
-//TODO fix bug with table sorting not reseting upon exitig to the menu
-//TODO make a reset button after search (blank search line?)
-//TODO lock sorting by column some columns (maybe imploment click on header to sort function of qtable sortItems)
 
+//TODO add a deleting confirmation, some ui adjustments for more eye appealing look
 
 static QWidget *loadUiFile(QWidget *parent, const std::string& path)
 {

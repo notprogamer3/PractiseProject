@@ -236,6 +236,12 @@
      </item>
      <item>
       <widget class="QSlider" name="TimeSlider">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimum">
         <number>1</number>
        </property>
@@ -243,10 +249,13 @@
         <number>24</number>
        </property>
        <property name="pageStep">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="value">
         <number>1</number>
+       </property>
+       <property name="tracking">
+        <bool>false</bool>
        </property>
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
@@ -287,6 +296,9 @@
     </property>
     <property name="wordWrap">
      <bool>false</bool>
+    </property>
+    <property name="indent">
+     <number>-1</number>
     </property>
     <property name="openExternalLinks">
      <bool>false</bool>

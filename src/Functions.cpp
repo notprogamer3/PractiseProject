@@ -182,10 +182,7 @@ vector<shared_ptr<Deposit>> *DepositFunctions::Search(vector<shared_ptr<Deposit>
 }
 
 // Удаление вклада
-void DepositFunctions::Delete(vector<shared_ptr<Deposit>> *Deps) {
-    cout << "Введите логин: ";
-    string Login;
-    cin >> Login;
+void DepositFunctions::Delete(vector<shared_ptr<Deposit>> *Deps, string Login) {
     for (auto i = Deps->begin(); i != Deps->end(); i++) {
         if ((*i)->getLogin() == Login) {
             // Динамическое удаление объекта и удаление его из вектора

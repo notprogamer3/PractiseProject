@@ -27,6 +27,7 @@ public:
     void CloseDepositWindow();
     void AddDepositUi();
     void TableSearch();
+    void DrawTable();
     void DrawDiagram(QGraphicsScene *scene);
 
     Ui(QApplication *app = nullptr, std::vector<shared_ptr<Deposit>> *Deps = nullptr) {

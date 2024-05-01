@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -30,9 +30,9 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>130</y>
+      <y>180</y>
       <width>608</width>
-      <height>271</height>
+      <height>181</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -92,25 +92,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="DeleteDeposit">
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Удалить вклад</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="ShowDiagram">
        <property name="minimumSize">
@@ -130,26 +111,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="EditDeposit">
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Редактировать вклад</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
+     <item row="1" column="0">
       <widget class="QPushButton" name="ShowTable">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -170,7 +132,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Показать таблицу данных о вкладах</string>
+        <string>Таблица вкладов и взаимодействие</string>
        </property>
       </widget>
      </item>
@@ -179,7 +141,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>330</x>
       <y>40</y>
       <width>231</width>
       <height>41</height>

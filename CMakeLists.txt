@@ -7,9 +7,9 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Boost COMPONENTS system filesystem container REQUIRED)
 
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-set(CMAKE_AUTOMOC OFF)
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_AUTORCC OFF)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets)
 
