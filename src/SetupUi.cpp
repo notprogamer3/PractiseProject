@@ -279,11 +279,17 @@ void Ui::SetupWindows() {
     QGraphicsScene *scene = new QGraphicsScene;
     QWidget *MainMenu = windows["MainWindow"]->findChild<QWidget *>("centralwidget");
     QWidget *AddDep = windows["AddDepositWindow"]->findChild<QWidget *>("centralwidget");
-    qDebug()<<MainMenu->pos()<<"   ";
+    qDebug()<<windows["MainWindow"]->objectName()<<"   ";
     QObjectList t = windows["MainWindow"]->children();
     for (int i=0; i<t.size(); ++i) {
         qDebug()<<(t.at(i)->objectName().toStdString());
     }
+    QMainWindow *main = new QMainWindow();
+    //TODO rewrite Widnows handaling like it this example below
+    main->setCentralWidget(windows["MainWindow"]);
+    main->show();
+
+
 
     // MainWindow buttons and functionality
     QPushButton *button = windows["MainWindow"]->findChild<QPushButton *>("ChangeTheme");
