@@ -277,6 +277,13 @@ void Ui::SetupWindows() {
     windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
     windows["MainWindow"]->show();
     QGraphicsScene *scene = new QGraphicsScene;
+    QWidget *MainMenu = windows["MainWindow"]->findChild<QWidget *>("centralwidget");
+    QWidget *AddDep = windows["AddDepositWindow"]->findChild<QWidget *>("centralwidget");
+    qDebug()<<MainMenu->pos()<<"   ";
+    QObjectList t = windows["MainWindow"]->children();
+    for (int i=0; i<t.size(); ++i) {
+        qDebug()<<(t.at(i)->objectName().toStdString());
+    }
 
     // MainWindow buttons and functionality
     QPushButton *button = windows["MainWindow"]->findChild<QPushButton *>("ChangeTheme");

@@ -17,6 +17,8 @@
 
 
 //TODO add a deleting confirmation, some ui adjustments for more eye appealing look
+//TODO rewrite full menu thing to menubar
+
 
 static QWidget *loadUiFile(QWidget *parent, const std::string& path)
 {
