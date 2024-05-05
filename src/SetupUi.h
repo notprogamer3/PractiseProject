@@ -16,11 +16,12 @@ class Ui {
     std::map<std::string, QWidget*> windows;
     QApplication *app;
     std::vector<shared_ptr<Deposit>> *Deposits;
+    QMainWindow *main = new QMainWindow();
 
 public:
 
     void ChangeTheme(QPushButton *button);
-    void GetBackToMainWindow(string name);
+    void GetBackToMainWindow();
     void SetupWindows();
     void OpenTableWindow();
     void OpenDepositWindow();

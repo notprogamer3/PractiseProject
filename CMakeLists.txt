@@ -13,6 +13,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets)
 
+add_compile_options(-Wall -Wextra -Wpedantic -municode)
 
 qt_add_executable(Practica2_QT main.cpp
         src/MenuItem.cpp

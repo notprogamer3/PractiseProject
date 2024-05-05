@@ -32,19 +32,19 @@ void Ui::ChangeTheme(QPushButton *button) {
     }
 }
 
-void Ui::GetBackToMainWindow(string name) {
-    windows[name]->hide();
-    windows["MainWindow"]->show();
+void Ui::GetBackToMainWindow() {
+    main->takeCentralWidget();
+    main->setCentralWidget(windows["MainWindow"]);
 }
 
 void Ui::OpenDepositWindow() {
-    windows["MainWindow"]->hide();
-    windows["AddDepositWindow"]->show();
+    main->takeCentralWidget();
+    main->setCentralWidget(windows["AddDepositWindow"]);
 }
 
 void Ui::OpenTableWindow() {
-    windows["MainWindow"]->hide();
-    windows["TableWindow"]->show();
+    main->takeCentralWidget();
+    main->setCentralWidget(windows["TableWindow"]);
     DrawTable();
 }
 
@@ -146,7 +146,7 @@ void Ui::CloseDepositWindow() {
     Percent->setText("5");
     Error->clear();
     TimeLabel->setText("1");
-    GetBackToMainWindow("AddDepositWindow");
+    GetBackToMainWindow();
 }
 
 
@@ -179,7 +179,7 @@ void Ui::AddDepositUi() {
         Percent->setText("5");
         Error->clear();
         TimeLabel->setText("1");
-        GetBackToMainWindow("AddDepositWindow");
+        GetBackToMainWindow();
     }
 }
 
@@ -277,17 +277,11 @@ void Ui::SetupWindows() {
     windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
     windows["MainWindow"]->show();
     QGraphicsScene *scene = new QGraphicsScene;
-    QWidget *MainMenu = windows["MainWindow"]->findChild<QWidget *>("centralwidget");
-    QWidget *AddDep = windows["AddDepositWindow"]->findChild<QWidget *>("centralwidget");
-    qDebug()<<windows["MainWindow"]->objectName()<<"   ";
-    QObjectList t = windows["MainWindow"]->children();
-    for (int i=0; i<t.size(); ++i) {
-        qDebug()<<(t.at(i)->objectName().toStdString());
-    }
-    QMainWindow *main = new QMainWindow();
-    //TODO rewrite Widnows handaling like it this example below
+    main->takeCentralWidget();
     main->setCentralWidget(windows["MainWindow"]);
     main->show();
+    main->setFixedWidth(1300);
+    main->setFixedHeight(800);
 
 
 
@@ -300,8 +294,8 @@ void Ui::SetupWindows() {
     QObject::connect(addDepositButton, &QPushButton::clicked, [=, this]() { OpenDepositWindow(); });
     QObject::connect(tableButton, &QPushButton::clicked, [=, this]() { OpenTableWindow(); });
     QObject::connect(DiagramButton, &QPushButton::clicked, [=, this]() {
-        windows["MainWindow"]->hide();
-        windows["DiagramWindow"]->show();
+        main->takeCentralWidget();
+        main->setCentralWidget(windows["DiagramWindow"]);
         DrawDiagram(scene);
     });
 
@@ -316,7 +310,7 @@ void Ui::SetupWindows() {
         SearchLine->clear();
         SearchType->setCurrentIndex(0);
         DepositFunctions::SaveData(Deposits);
-        GetBackToMainWindow("TableWindow");
+        GetBackToMainWindow();
     });
     QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
     QObject::connect(seatchButton, &QPushButton::clicked, [=, this] { TableSearch(); });
@@ -367,7 +361,7 @@ void Ui::SetupWindows() {
     QObject::connect(backButton3, &QPushButton::clicked, [=, this]() {
         DiagramType->setCurrentIndex(0);
         scene->clear();
-        GetBackToMainWindow("DiagramWindow");
+        GetBackToMainWindow();
     });
     QGraphicsView *Diagram = windows["DiagramWindow"]->findChild<QGraphicsView *>("Diagram");
     Diagram->setScene(scene);

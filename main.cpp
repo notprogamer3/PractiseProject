@@ -1,14 +1,11 @@
 #include <iostream>
 #include <qstylefactory.h>
-
-#include "src/MenuItem.h"
 #include "vector"
 #include "memory"
 #include "fstream"
 #include "boost/algorithm/string.hpp"
 #include "src/Deposit.h"
 #include "src/Functions.h"
-#include "QApplication"
 #include "QUiLoader"
 #include "QtCore"
 #include "src/SetupUi.h"
