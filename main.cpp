@@ -14,7 +14,7 @@
 
 
 //TODO add a deleting confirmation, some ui adjustments for more eye appealing look
-//TODO rewrite full menu thing to menubar
+//TODO make ui elements position relative
 
 
 static QWidget *loadUiFile(QWidget *parent, const std::string& path)
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     qDebug()<<QStyleFactory::keys();
     qDebug()<<app.style();
+    app.setStyle("windowsvista");
     Ui ui(&app, &Deposits);
 
 

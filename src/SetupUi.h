@@ -17,16 +17,14 @@ class Ui {
     QApplication *app;
     std::vector<shared_ptr<Deposit>> *Deposits;
     QMainWindow *main = new QMainWindow();
+    QTabWidget *tabWidget = new QTabWidget();
 
 public:
 
     void ChangeTheme(QPushButton *button);
-    void GetBackToMainWindow();
     void SetupWindows();
-    void OpenTableWindow();
-    void OpenDepositWindow();
-    void CloseDepositWindow();
-    void AddDepositUi();
+    void ResetDepositWindow();
+    void AddDeposit();
     void TableSearch();
     void DrawTable();
     void DrawDiagram(QGraphicsScene *scene);

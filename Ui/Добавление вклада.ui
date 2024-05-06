@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>847</width>
-    <height>672</height>
+    <height>655</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -36,7 +36,7 @@
      <string>Подтвердить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="BackToMenu">
+   <widget class="QPushButton" name="ResetFields">
     <property name="geometry">
      <rect>
       <x>670</x>
@@ -52,7 +52,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Отмена</string>
+     <string>Очистка</string>
     </property>
    </widget>
    <widget class="QLabel" name="TimeNumLabel">

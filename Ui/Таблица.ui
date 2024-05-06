@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1118</width>
-    <height>806</height>
+    <width>1160</width>
+    <height>868</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,8 +25,8 @@
      <rect>
       <x>50</x>
       <y>160</y>
-      <width>1021</width>
-      <height>561</height>
+      <width>1061</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -163,25 +163,6 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="BackToMenu">
-    <property name="geometry">
-     <rect>
-      <x>930</x>
-      <y>730</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Вернуться в меню</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -251,6 +232,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="ChangeTheme">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>10</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Темная тема</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

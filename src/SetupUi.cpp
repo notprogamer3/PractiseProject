@@ -27,26 +27,11 @@ void Ui::ChangeTheme(QPushButton *button) {
         app->setStyle("windowsvista");
         button->setText("Темная тема");
     } else {
-        app->setStyle("windows11");
+        app->setStyle("windows11"); // fusion other option (win11 currently bugged)
         button->setText("Светлая тема");
     }
 }
 
-void Ui::GetBackToMainWindow() {
-    main->takeCentralWidget();
-    main->setCentralWidget(windows["MainWindow"]);
-}
-
-void Ui::OpenDepositWindow() {
-    main->takeCentralWidget();
-    main->setCentralWidget(windows["AddDepositWindow"]);
-}
-
-void Ui::OpenTableWindow() {
-    main->takeCentralWidget();
-    main->setCentralWidget(windows["TableWindow"]);
-    DrawTable();
-}
 
 void Ui::DrawTable() {
     QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
@@ -125,7 +110,7 @@ void Ui::TableSearch() {
     }
 }
 
-void Ui::CloseDepositWindow() {
+void Ui::ResetDepositWindow() {
     QLineEdit *Name = windows["AddDepositWindow"]->findChild<QLineEdit *>("NameLine");
     QLineEdit *Surname = windows["AddDepositWindow"]->findChild<QLineEdit *>("SurnameLine");
     QLineEdit *Phone = windows["AddDepositWindow"]->findChild<QLineEdit *>("PhoneLine");
@@ -146,11 +131,10 @@ void Ui::CloseDepositWindow() {
     Percent->setText("5");
     Error->clear();
     TimeLabel->setText("1");
-    GetBackToMainWindow();
 }
 
 
-void Ui::AddDepositUi() {
+void Ui::AddDeposit() {
     QLineEdit *Name = windows["AddDepositWindow"]->findChild<QLineEdit *>("NameLine");
     QLineEdit *Surname = windows["AddDepositWindow"]->findChild<QLineEdit *>("SurnameLine");
     QLineEdit *Phone = windows["AddDepositWindow"]->findChild<QLineEdit *>("PhoneLine");
@@ -159,7 +143,6 @@ void Ui::AddDepositUi() {
     QLineEdit *Amount = windows["AddDepositWindow"]->findChild<QLineEdit *>("AmountLine");
     QLabel *Percent = windows["AddDepositWindow"]->findChild<QLabel *>("PercentLabel");
     QLabel *Error = windows["AddDepositWindow"]->findChild<QLabel *>("ErrorLabel");
-    QLabel *TimeLabel = windows["AddDepositWindow"]->findChild<QLabel *>("TimeNumLabel");
     QComboBox *Type = windows["AddDepositWindow"]->findChild<QComboBox *>("TypeOption");
     string s = DepositFunctions::AddDeposit(Deposits, Name->text().toStdString(), Surname->text().toStdString(),
                                             Phone->text().toStdString(), Email->text().toStdString(),
@@ -169,17 +152,7 @@ void Ui::AddDepositUi() {
         Error->setText(QString::fromStdString(s));
     } else {
         DepositFunctions::SaveData(Deposits);
-        Name->clear();
-        Surname->clear();
-        Phone->clear();
-        Email->clear();
-        Type->setCurrentIndex(0);
-        Time->setValue(1);
-        Amount->clear();
-        Percent->setText("5");
-        Error->clear();
-        TimeLabel->setText("1");
-        GetBackToMainWindow();
+        ResetDepositWindow();
     }
 }
 
@@ -271,50 +244,31 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 //TODO загнать в отедльные функции все что написано черезе лямбду
 void Ui::SetupWindows() {
     // Load all windows and vars
-    windows["MainWindow"] = loadUiFile(nullptr, "../Ui/Главное окно.ui");
+    const std::string windowsNames[] = {"AddDepositWindow", "TableWindow", "DiagramWindow"};
     windows["AddDepositWindow"] = loadUiFile(nullptr, "../Ui/Добавление вклада.ui");
     windows["TableWindow"] = loadUiFile(nullptr, "../Ui/Таблица.ui");
     windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
-    windows["MainWindow"]->show();
     QGraphicsScene *scene = new QGraphicsScene;
     main->takeCentralWidget();
-    main->setCentralWidget(windows["MainWindow"]);
+    main->setCentralWidget(tabWidget);
+    DrawTable();
+    tabWidget->addTab(windows["TableWindow"], "Таблица");
+    tabWidget->addTab(windows["AddDepositWindow"], "Добавление вклада");
+    tabWidget->addTab(windows["DiagramWindow"], "Диаграмма");
     main->show();
-    main->setFixedWidth(1300);
-    main->setFixedHeight(800);
-
-
-
-    // MainWindow buttons and functionality
-    QPushButton *button = windows["MainWindow"]->findChild<QPushButton *>("ChangeTheme");
-    QPushButton *addDepositButton = windows["MainWindow"]->findChild<QPushButton *>("AddDeposit");
-    QPushButton *tableButton = windows["MainWindow"]->findChild<QPushButton *>("ShowTable");
-    QPushButton *DiagramButton = windows["MainWindow"]->findChild<QPushButton *>("ShowDiagram");
-    QObject::connect(button, &QPushButton::clicked, [=, this]() { ChangeTheme(button); });
-    QObject::connect(addDepositButton, &QPushButton::clicked, [=, this]() { OpenDepositWindow(); });
-    QObject::connect(tableButton, &QPushButton::clicked, [=, this]() { OpenTableWindow(); });
-    QObject::connect(DiagramButton, &QPushButton::clicked, [=, this]() {
-        main->takeCentralWidget();
-        main->setCentralWidget(windows["DiagramWindow"]);
-        DrawDiagram(scene);
-    });
+    main->setFixedWidth(1250);
+    main->setFixedHeight(810);
 
 
     // TableWindow buttons and functionality
     qDebug() << "TableWindowINIT";
-    QPushButton *backButton = windows["TableWindow"]->findChild<QPushButton *>("BackToMenu");
-    //Closing TableWindow and clearing lines
-    QObject::connect(backButton, &QPushButton::clicked, [=, this]() {
-        QLineEdit *SearchLine = windows["TableWindow"]->findChild<QLineEdit *>("SearchLine");
-        QComboBox *SearchType = windows["TableWindow"]->findChild<QComboBox *>("SearchType");
-        SearchLine->clear();
-        SearchType->setCurrentIndex(0);
-        DepositFunctions::SaveData(Deposits);
-        GetBackToMainWindow();
-    });
+    //Change theme
+    QPushButton *ChangeThemeButton = windows["TableWindow"]->findChild<QPushButton *>("ChangeTheme");
+    QObject::connect(ChangeThemeButton, &QPushButton::clicked, [this, ChangeThemeButton] { ChangeTheme(ChangeThemeButton); });
+    //Search
     QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
-    QObject::connect(seatchButton, &QPushButton::clicked, [=, this] { TableSearch(); });
-    //Sorting lambda
+    QObject::connect(seatchButton, &QPushButton::clicked, [this] { TableSearch(); });
+    //Sorting
     QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
     Table->setSortingEnabled(false);
     QObject::connect(Table->horizontalHeader(), &QHeaderView::sectionClicked, [=, this](const int logicalIndex) {
@@ -338,7 +292,7 @@ void Ui::SetupWindows() {
 
     // AddDepositWindow buttons and functionality
     qDebug() << "DepositWindowINIT";
-    QPushButton *backButton2 = windows["AddDepositWindow"]->findChild<QPushButton *>("BackToMenu");
+    QPushButton *ResetFieldsButton = windows["AddDepositWindow"]->findChild<QPushButton *>("ResetFields");
     QLabel *PercentLabel = windows["AddDepositWindow"]->findChild<QLabel *>("PercentLabel");
     QComboBox *Type = windows["AddDepositWindow"]->findChild<QComboBox *>("TypeOption");
     //Dynamic changing of percent label
@@ -349,24 +303,43 @@ void Ui::SetupWindows() {
             PercentLabel->setText("10");
         }
     });
-    QObject::connect(backButton2, &QPushButton::clicked, [=, this] { CloseDepositWindow(); });
+    //Resetting fields
+    QObject::connect(ResetFieldsButton, &QPushButton::clicked, [=, this]() { ResetDepositWindow(); });
+    //Adding deposit
     QPushButton *addButton = windows["AddDepositWindow"]->findChild<QPushButton *>("AddDepositButton");
-    QObject::connect(addButton, &QPushButton::clicked, [=, this] { AddDepositUi(); });
+    QObject::connect(addButton, &QPushButton::clicked, [this] { AddDeposit(); });
 
 
     //DiagramWindow buttons and functionality
     qDebug() << "DiagramWindowINIT";
-    QPushButton *backButton3 = windows["DiagramWindow"]->findChild<QPushButton *>("BackToMenu");
     QComboBox *DiagramType = windows["DiagramWindow"]->findChild<QComboBox *>("DiagramType");
-    QObject::connect(backButton3, &QPushButton::clicked, [=, this]() {
-        DiagramType->setCurrentIndex(0);
-        scene->clear();
-        GetBackToMainWindow();
-    });
     QGraphicsView *Diagram = windows["DiagramWindow"]->findChild<QGraphicsView *>("Diagram");
     Diagram->setScene(scene);
     QObject::connect(DiagramType, &QComboBox::currentTextChanged, [=, this]() {
         DrawDiagram(scene);
     });
-    //Draw circle diagram
+
+
+
+    //Switching tabs events
+    QObject::connect(tabWidget, &QTabWidget::tabBarClicked, [=, this](const int index) {
+        int current = tabWidget->currentIndex();
+        //Save data on table switch and clear fields
+        if (current == 0) {
+            QLineEdit *SearchLine = windows["TableWindow"]->findChild<QLineEdit *>("SearchLine");
+            QComboBox *SearchType = windows["TableWindow"]->findChild<QComboBox *>("SearchType");
+            QRadioButton *EditToggle = windows["TableWindow"]->findChild<QRadioButton *>("EditToggle");
+            EditToggle->setChecked(false);
+            SearchLine->clear();
+            SearchType->setCurrentIndex(0);
+            DepositFunctions::SaveData(Deposits);
+        }
+        if (index == 0) {
+            DrawTable();
+        } else if (index == 1) {
+            ResetDepositWindow();
+        } else if (index == 2) {
+            DrawDiagram(scene);
+        }
+    });
 }
