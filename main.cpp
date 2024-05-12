@@ -6,26 +6,15 @@
 #include "boost/algorithm/string.hpp"
 #include "src/Deposit.h"
 #include "src/Functions.h"
-#include "QUiLoader"
 #include "QtCore"
 #include "src/SetupUi.h"
 
 
 
 
-//TODO add a deleting confirmation, some ui adjustments for more eye appealing look
+//TODO some ui adjustments for more eye appealing look
 //TODO make ui elements position relative
 
-
-static QWidget *loadUiFile(QWidget *parent, const std::string& path)
-{
-    QString qPath = QString::fromStdString(path);
-    QFile file(qPath);
-    file.open(QIODevice::ReadOnly);
-
-    QUiLoader loader;
-    return loader.load(&file, parent);
-}
 
 
 using namespace std;

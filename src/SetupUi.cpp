@@ -24,10 +24,10 @@ static QWidget *loadUiFile(QWidget *parent, const std::string &path) {
 
 void Ui::ChangeTheme(QPushButton *button) {
     if (button->text() == "Светлая тема") {
-        app->setStyle("windowsvista");
+        QApplication::setStyle("windowsvista");
         button->setText("Темная тема");
     } else {
-        app->setStyle("windows11"); // fusion other option (win11 currently bugged)
+        QApplication::setStyle("fusion"); // fusion other option (win11 currently bugged)
         button->setText("Светлая тема");
     }
 }
@@ -81,8 +81,37 @@ void Ui::DrawTable() {
         QPushButton *DeleteButton = new QPushButton("Удалить");
         Table->setCellWidget(i, 9, DeleteButton);
         QObject::connect(DeleteButton, &QPushButton::clicked, [=, this]() {
-            DepositFunctions::Delete(Deposits, Deposits->at(i)->getLogin());
-            DrawTable();
+            QPushButton *DeleteButton2 = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("DeleteButton");
+            QPushButton *CancelButton = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("CancelButton");
+            QLabel *LoginLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("LoginLabel");
+            LoginLabel->setText(Login->text());
+            QLabel *NSLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("NSLabel");
+            NSLabel->setText(Name_Surname->text());
+            QLabel *PhoneLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("PhoneLabel");
+            PhoneLabel->setText(Phone->text());
+            QLabel *EmailLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("EmailLabel");
+            EmailLabel->setText(Email->text());
+            QLabel *TypeLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("TypeLabel");
+            TypeLabel->setText(Type->text());
+            QLabel *TimeLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("TimeLabel");
+            TimeLabel->setText(Time->text());
+            QLabel *AmountLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("AmountLabel");
+            AmountLabel->setText(Amount->text());
+            QLabel *PercentLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("PercentLabel");
+            PercentLabel->setText(Percent->text());
+            QLabel *IncomeLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("IncomeLabel");
+            IncomeLabel->setText(Income->text());
+            windows["DeletingConfirmWindow"]->show();
+            QObject::connect(DeleteButton2, &QPushButton::clicked, [=, this]() {
+                qDebug()<<"Deleting" << LoginLabel->text();
+                DepositFunctions::Delete(Deposits, Deposits->at(i)->getLogin());
+                DepositFunctions::SaveData(Deposits);
+                DrawTable();
+                windows["DeletingConfirmWindow"]->close();
+            });
+            QObject::connect(CancelButton, &QPushButton::clicked, [=, this]() {
+                windows["DeletingConfirmWindow"]->close();
+            });
         });
     }
 }
@@ -248,6 +277,7 @@ void Ui::SetupWindows() {
     windows["AddDepositWindow"] = loadUiFile(nullptr, "../Ui/Добавление вклада.ui");
     windows["TableWindow"] = loadUiFile(nullptr, "../Ui/Таблица.ui");
     windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
+    windows["DeletingConfirmWindow"] = loadUiFile(nullptr, "../Ui/Потверждение удаления.ui");
     QGraphicsScene *scene = new QGraphicsScene;
     main->takeCentralWidget();
     main->setCentralWidget(tabWidget);
@@ -257,7 +287,8 @@ void Ui::SetupWindows() {
     tabWidget->addTab(windows["DiagramWindow"], "Диаграмма");
     main->show();
     main->setFixedWidth(1250);
-    main->setFixedHeight(810);
+    main->setFixedHeight(860);
+
 
 
     // TableWindow buttons and functionality
