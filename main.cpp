@@ -12,13 +12,12 @@
 
 
 
-//TODO some ui adjustments for more eye appealing look
-//TODO make ui elements position relative
 
 
 
 using namespace std;
 
+//TODO отчет делать через выбор записей по кнопке в таблице и делать его просто в виде текстовом
 
 int main(int argc, char *argv[]) {
     ofstream fout("data.txt", ios::app);

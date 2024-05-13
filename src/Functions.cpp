@@ -10,9 +10,8 @@
 #include <iostream>
 #include "regex"
 #include <iomanip>
-#include <algorithm>
+#include <boost/algorithm/string.hpp>
 #include <string>
-#include <cmath>
 
 //Печатание пробелов для таблицы
 void PrintSpaces(int n) {
@@ -70,11 +69,23 @@ void DepositFunctions::LoadData(vector<shared_ptr<Deposit>> *Deps) {
 }
 
 // Добавление вклада
-string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string name, string surname, string phone, string email, string type, int sum, int time, int percent) {
+string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string login, string name, string surname, string phone, string email, string type, int sum, int time, int percent) {
     string Login;
     // логин генерируется автоматически для более простого обращения после к записям
-    Login = "login" + to_string(Deps->size());
-
+    if (login == "") {
+        Login = "login";
+        string temp;
+        //split numbers and login
+        vector<string> result;
+        if (Deps->size() != 0) {
+            boost::split(result, Deps->at(Deps->size()-1)->getLogin(), boost::is_any_of("n"));
+            Login += to_string(stoi(result[1]) + 1);
+        } else {
+            Login += "0";
+        }
+    } else {
+        Login = login;
+    }
     string Name_Surname = name + "_" + surname;
     // regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
     //    if (!regex_match(phone, russiaPhoneRegex)) {
