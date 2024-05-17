@@ -45,17 +45,18 @@ void Ui::DrawTable() {
 	}
 	Table->sortByColumn(0, Qt::AscendingOrder);
 	Table->clear();
-	Table->setColumnCount(10);
-	Table->setHorizontalHeaderItem(0, new QTableWidgetItem("Логин"));
-	Table->setHorizontalHeaderItem(1, new QTableWidgetItem("И.Ф."));
-	Table->setHorizontalHeaderItem(2, new QTableWidgetItem("Телефон"));
-	Table->setHorizontalHeaderItem(3, new QTableWidgetItem("Email"));
-	Table->setHorizontalHeaderItem(4, new QTableWidgetItem("Тип вклада"));
-	Table->setHorizontalHeaderItem(5, new QTableWidgetItem("Срок в месяцах"));
-	Table->setHorizontalHeaderItem(6, new QTableWidgetItem("Сумма"));
-	Table->setHorizontalHeaderItem(7, new QTableWidgetItem("Процент"));
-	Table->setHorizontalHeaderItem(8, new QTableWidgetItem("Доход"));
-	Table->setHorizontalHeaderItem(9, new QTableWidgetItem(""));
+	Table->setColumnCount(11);
+	Table->setHorizontalHeaderItem(0, new QTableWidgetItem("Л"));
+	Table->setHorizontalHeaderItem(1, new QTableWidgetItem("Логин"));
+	Table->setHorizontalHeaderItem(2, new QTableWidgetItem("И.Ф."));
+	Table->setHorizontalHeaderItem(3, new QTableWidgetItem("Телефон"));
+	Table->setHorizontalHeaderItem(4, new QTableWidgetItem("Email"));
+	Table->setHorizontalHeaderItem(5, new QTableWidgetItem("Тип вклада"));
+	Table->setHorizontalHeaderItem(6, new QTableWidgetItem("Срок в месяцах"));
+	Table->setHorizontalHeaderItem(7, new QTableWidgetItem("Сумма"));
+	Table->setHorizontalHeaderItem(8, new QTableWidgetItem("Процент"));
+	Table->setHorizontalHeaderItem(9, new QTableWidgetItem("Доход"));
+	Table->setHorizontalHeaderItem(10, new QTableWidgetItem(""));
 	Table->setRowCount(Deposits->size());
 	qDebug() << Deposits->size() << "Table init";
 	for (int i = 0; i < Deposits->size(); i++) {
@@ -73,17 +74,19 @@ void Ui::DrawTable() {
 		Percent->setData(Qt::EditRole, Deposits->at(i)->getPercent());
 		QTableWidgetItem *Income = new QTableWidgetItem;
 		Income->setData(Qt::EditRole, Deposits->at(i)->getIncome());
-		Table->setItem(i, 0, Login);
-		Table->setItem(i, 1, Name_Surname);
-		Table->setItem(i, 2, Phone);
-		Table->setItem(i, 3, Email);
-		Table->setItem(i, 4, Type);
-		Table->setItem(i, 5, Time);
-		Table->setItem(i, 6, Amount);
-		Table->setItem(i, 7, Percent);
-		Table->setItem(i, 8, Income);
+		QCheckBox *Report = new QCheckBox("В Отчет");
+		Table->setCellWidget(i, 0, Report);
+		Table->setItem(i, 1, Login);
+		Table->setItem(i, 2, Name_Surname);
+		Table->setItem(i, 3, Phone);
+		Table->setItem(i, 4, Email);
+		Table->setItem(i, 5, Type);
+		Table->setItem(i, 6, Time);
+		Table->setItem(i, 7, Amount);
+		Table->setItem(i, 8, Percent);
+		Table->setItem(i, 9, Income);
 		QPushButton *DeleteButton = new QPushButton("Удалить");
-		Table->setCellWidget(i, 9, DeleteButton);
+		Table->setCellWidget(i, 10, DeleteButton);
 		QObject::connect(DeleteButton, &QPushButton::clicked, [=, this]() {
 			QPushButton *DeleteButton2 = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("DeleteButton");
 			QPushButton *CancelButton = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("CancelButton");
@@ -118,6 +121,14 @@ void Ui::DrawTable() {
 			});
 		});
 	}
+	Table->setColumnWidth(1, 100);
+	Table->setColumnWidth(2, 150);
+	Table->setColumnWidth(3, 100);
+	Table->setColumnWidth(4, 100);
+	Table->setColumnWidth(5, 100);
+	Table->setColumnWidth(6, 100);
+
+
 }
 
 
@@ -239,9 +250,9 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 		scene->clear();
 		int t1 = 0, t2 = 0, t3 = 0;
 		for (auto &i: *Deposits) {
-			if (i->getType() == "тип_1") {
+			if (i->getType() == "Обычный") {
 				t1++;
-			} else if (i->getType() == "тип_2") {
+			} else if (i->getType() == "Пенсионный") {
 				t2++;
 			} else {
 				t3++;
@@ -251,27 +262,20 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 		QGraphicsEllipseItem *elips;
 		double percent, startAngle;
 		elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::red));
-		percent = (t1 * 1.0 * 360 * 16) / (t1 + t2 + t3);
+		percent = (t1 * 1.0 * 360 * 16) / (t1 + t2);
 		elips->setSpanAngle(percent);
 		startAngle += percent;
 		QGraphicsTextItem *text1 = scene->addText(QString::fromStdString("Тип 1"));
 		text1->setPos(500, -155);
 		text1->setDefaultTextColor(Qt::red);
 		elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::green));
-		percent = (t2 * 1.0 * 360 * 16) / (t1 + t2 + t3);
+		percent = (t2 * 1.0 * 360 * 16) / (t1 + t2);
 		elips->setStartAngle(startAngle);
 		elips->setSpanAngle(percent);
 		startAngle += percent;
 		QGraphicsTextItem *text2 = scene->addText(QString::fromStdString("Тип 2"));
 		text2->setPos(500, -135);
 		text2->setDefaultTextColor(Qt::green);
-		elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::blue));
-		percent = (t3 * 1.0 * 360 * 16) / (t1 + t2 + t3);
-		elips->setStartAngle(startAngle);
-		elips->setSpanAngle(percent);
-		QGraphicsTextItem *text3 = scene->addText(QString::fromStdString("Тип 3"));
-		text3->setPos(500, -115);
-		text3->setDefaultTextColor(Qt::blue);
 	}
 }
 
@@ -341,9 +345,9 @@ void Ui::SetupWindows() {
 	QComboBox *Type = windows["AddDepositWindow"]->findChild<QComboBox *>("TypeOption");
 	//Dynamic changing of percent label
 	QObject::connect(Type, &QComboBox::currentTextChanged, [=, this]() {
-		if (Type->currentText() == "тип_1") {
+		if (Type->currentText() == "Обычный") {
 			PercentLabel->setText("5");
-		} else if (Type->currentText() == "тип_2") {
+		} else if (Type->currentText() == "Пенсионный") {
 			PercentLabel->setText("10");
 		}
 	});
@@ -412,7 +416,7 @@ void Ui::SetupWindows() {
 	});
 
 	//Report functionality
-
+	// Create a new QListWidget
 
 	//CreateReport window functionality
 	qDebug() << "ReportWindowINIT";

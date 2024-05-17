@@ -23,10 +23,10 @@
    <widget class="QTableWidget" name="Table">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>30</x>
       <y>160</y>
-      <width>1061</width>
-      <height>601</height>
+      <width>1101</width>
+      <height>661</height>
      </rect>
     </property>
     <property name="minimumSize">
