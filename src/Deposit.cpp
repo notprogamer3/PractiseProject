@@ -23,7 +23,7 @@ Deposit::Deposit(std::string Login, std::string Name_Surname, std::string Phone,
     this->TimeInMonths = TimeInMonths;
     this->Amount = Amount;
     this->Percent = Percent;
-    this->Income = Amount + Amount * Percent / 100 * TimeInMonths / 12;
+    this->Income = Amount * Percent / 100 * TimeInMonths / 12;
 
 }
 

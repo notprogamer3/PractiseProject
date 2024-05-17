@@ -4,9 +4,6 @@
 
 #ifndef PRACTICA2_QT_FUNCTIONS_H
 #define PRACTICA2_QT_FUNCTIONS_H
-
-#include <QWidget>
-
 #include "Deposit.h"
 #include "vector"
 #include "memory"

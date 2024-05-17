@@ -175,12 +175,12 @@
       <widget class="QComboBox" name="TypeOption">
        <item>
         <property name="text">
-         <string>тип_1</string>
+         <string>Обычный</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>тип_2</string>
+         <string>Пенсионный</string>
         </property>
        </item>
       </widget>

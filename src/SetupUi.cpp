@@ -46,7 +46,7 @@ void Ui::DrawTable() {
 	Table->sortByColumn(0, Qt::AscendingOrder);
 	Table->clear();
 	Table->setColumnCount(11);
-	Table->setHorizontalHeaderItem(0, new QTableWidgetItem("Л"));
+	Table->setHorizontalHeaderItem(0, new QTableWidgetItem("Отчет"));
 	Table->setHorizontalHeaderItem(1, new QTableWidgetItem("Логин"));
 	Table->setHorizontalHeaderItem(2, new QTableWidgetItem("И.Ф."));
 	Table->setHorizontalHeaderItem(3, new QTableWidgetItem("Телефон"));
@@ -74,7 +74,7 @@ void Ui::DrawTable() {
 		Percent->setData(Qt::EditRole, Deposits->at(i)->getPercent());
 		QTableWidgetItem *Income = new QTableWidgetItem;
 		Income->setData(Qt::EditRole, Deposits->at(i)->getIncome());
-		QCheckBox *Report = new QCheckBox("В Отчет");
+		QCheckBox *Report = new QCheckBox("");
 		Table->setCellWidget(i, 0, Report);
 		Table->setItem(i, 1, Login);
 		Table->setItem(i, 2, Name_Surname);
@@ -121,14 +121,16 @@ void Ui::DrawTable() {
 			});
 		});
 	}
+	Table->setColumnWidth(0, 24);
 	Table->setColumnWidth(1, 100);
-	Table->setColumnWidth(2, 150);
+	Table->setColumnWidth(2, 190);
 	Table->setColumnWidth(3, 100);
-	Table->setColumnWidth(4, 100);
-	Table->setColumnWidth(5, 100);
-	Table->setColumnWidth(6, 100);
-
-
+	Table->setColumnWidth(4, 150);
+	Table->setColumnWidth(5, 80);
+	Table->setColumnWidth(6, 96);
+	Table->setColumnWidth(7, 70);
+	Table->setColumnWidth(8, 55);
+	Table->setColumnWidth(9, 70);
 }
 
 
@@ -292,6 +294,7 @@ void Ui::SetupWindows() {
 	windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
 	windows["DeletingConfirmWindow"] = loadUiFile(nullptr, "../Ui/Потверждение удаления.ui");
 	windows["Report"] = loadUiFile(nullptr, "../Ui/Отчет.ui");
+	windows["Report"]->show();
 	// Create var for graphics
 	QGraphicsScene *scene = new QGraphicsScene;
 	// setup mainwindow
@@ -311,8 +314,8 @@ void Ui::SetupWindows() {
 	qDebug() << "TableWindowINIT";
 	//Change theme
 	QPushButton *ChangeThemeButton = windows["TableWindow"]->findChild<QPushButton *>("ChangeTheme");
-	QObject::connect(ChangeThemeButton, &QPushButton::clicked,
-	                 [this, ChangeThemeButton] { ChangeTheme(ChangeThemeButton); });
+	//TODO сделать эту тему нормально потому что тут у меня просто заглушка под отчет
+	ChangeThemeButton->setText("Создать отчет");
 	//Search
 	QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
 	QObject::connect(seatchButton, &QPushButton::clicked, [this] { TableSearch(); });
@@ -320,9 +323,9 @@ void Ui::SetupWindows() {
 	QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
 	Table->setSortingEnabled(false);
 	QObject::connect(Table->horizontalHeader(), &QHeaderView::sectionClicked, [=, this](const int logicalIndex) {
-		if (logicalIndex >= 4 and logicalIndex <= 6) {
+		if (logicalIndex >= 5 and logicalIndex <= 7) {
 			Table->sortByColumn(logicalIndex, Qt::AscendingOrder);
-		} else if (logicalIndex == 0) {
+		} else if (logicalIndex ==1) {
 			DrawTable();
 		}
 	});
@@ -388,14 +391,14 @@ void Ui::SetupWindows() {
 				Deposits->erase(i);
 			}
 			for (int i = 0; i < Table->rowCount(); i++) {
-				QTableWidgetItem *Login = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 0);
-				QTableWidgetItem *Name_Surname = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 1);
-				QTableWidgetItem *Phone = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 2);
-				QTableWidgetItem *Email = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 3);
-				QTableWidgetItem *Type = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 4);
-				QTableWidgetItem *Time = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 5);
-				QTableWidgetItem *Amount = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 6);
-				QTableWidgetItem *Percent = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 7);
+				QTableWidgetItem *Login = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 1);
+				QTableWidgetItem *Name_Surname = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 2);
+				QTableWidgetItem *Phone = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 3);
+				QTableWidgetItem *Email = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 4);
+				QTableWidgetItem *Type = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 5);
+				QTableWidgetItem *Time = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 6);
+				QTableWidgetItem *Amount = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 7);
+				QTableWidgetItem *Percent = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 8);
 				//split Name_Surname
 				vector<string> result;
 				boost::split(result, Name_Surname->text().toStdString(), boost::is_any_of("_"));

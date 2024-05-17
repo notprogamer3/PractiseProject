@@ -1,0 +1,62 @@
+@startuml
+
+class Deposit {
+    - Login : string
+    - Name_Surname : string
+    - Phone : string
+    - Email : string
+    - Type : string
+    - TimeInMonths : int
+    - Amount : int
+    - Percent : int
+    - Income : int
+    + getLogin() : string
+    + setLogin(Login : string) : void
+    + getName_Surname() : string
+    + setName_Surname(Name_Surname : string) : void
+    + getPhone() : string
+    + setPhone(Phone : string) : void
+    + getEmail() : string
+    + setEmail(Email : string) : void
+    + getType() : string
+    + setType(Type : string) : void
+    + getTimeInMonths() : int
+    + setTimeInMonths(TimeInMonths : int) : void
+    + getAmount() : int
+    + setAmount(Amount : int) : void
+    + getPercent() : int
+    + setPercent(Percent : int) : void
+    + getIncome() : int
+    + setIncome(Income : int) : void
+}
+
+class Ui {
+    - windows : map<string, QWidget*>
+    - app : QApplication*
+    - Deposits : vector<shared_ptr<Deposit>>*
+    - main : QMainWindow*
+    - tabWidget : QTabWidget*
+    + ChangeTheme(button : QPushButton*) : void
+    + SetupWindows() : void
+    + ResetDepositWindow() : void
+    + AddDeposit() : void
+    + TableSearch() : void
+    + DrawTable() : void
+    + DrawDiagram(scene : QGraphicsScene*) : void
+    + MakeReport(scene : QGraphicsScene*, Logins : vector<string>) : void
+}
+
+class DepositFunctions {
+    + SaveData(Deps : vector<shared_ptr<Deposit>>*) : void
+    + LoadData(Deps : vector<shared_ptr<Deposit>>*) : void
+    + AddDeposit(Deps : vector<shared_ptr<Deposit>>*, login : string, name : string, surname : string, phone : string, email : string, type : string, sum : int, percent : int, time : int) : string
+    + TestingData(Deps : vector<shared_ptr<Deposit>>*) : void
+    + Search(Deps : vector<shared_ptr<Deposit>>*, type : string, data : string) : vector<shared_ptr<Deposit>>*
+    + Delete(Deps : vector<shared_ptr<Deposit>>*, Login : string) : void
+}
+
+Deposit "1" -- "0..*" Ui : contains
+Deposit "1" -- "0..*" DepositFunctions : contains
+Ui "1" -- "0..*"  DepositFunctions : contains
+
+@enduml

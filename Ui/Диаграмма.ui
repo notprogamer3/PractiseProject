@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>775</width>
-    <height>564</height>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,19 +40,6 @@
     </property>
     <property name="cacheMode">
      <set>QGraphicsView::CacheModeFlag::CacheNone</set>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="BackToMenu">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>450</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Назад в меню</string>
     </property>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">

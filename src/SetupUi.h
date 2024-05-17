@@ -5,8 +5,6 @@
 #ifndef SETUPUI_H
 #define SETUPUI_H
 #include <vector>
-#include <QPushButton>
-#include <QObject>
 #include "Deposit.h"
 #include <QtWidgets>
 
