@@ -3,6 +3,8 @@ project(Practica2_QT)
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_subdirectory(Boost_test)
+
 find_package(Boost COMPONENTS system filesystem container REQUIRED)
 
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR})

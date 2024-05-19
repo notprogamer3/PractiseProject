@@ -26,7 +26,7 @@ public:
     void TableSearch();
     void DrawTable();
     void DrawDiagram(QGraphicsScene *scene);
-    void MakeReport(QGraphicsScene *scene, vector<string> Logins);
+    void MakeReport(vector<string> Logins);
 
     Ui(QApplication *app = nullptr, std::vector<shared_ptr<Deposit>> *Deps = nullptr) {
         this->app = app;

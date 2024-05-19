@@ -233,7 +233,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="ChangeTheme">
+   <widget class="QPushButton" name="CreateReport">
     <property name="geometry">
      <rect>
       <x>1050</x>

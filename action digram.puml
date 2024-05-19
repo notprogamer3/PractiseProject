@@ -1,0 +1,19 @@
+@startuml
+actor User
+participant "Ui" as A
+participant "DepositFunctions" as B
+participant "Deposit" as C
+
+User -> A: Clicks "Add Deposit"
+activate A
+A -> B: AddDeposit(Deposits, login, name, surname, phone, email, type, sum, percent, time)
+activate B
+B -> C: Create new Deposit
+activate C
+C --> B: Return new Deposit
+deactivate C
+B --> A: Return status
+deactivate B
+A --> User: Show status
+deactivate A
+@enduml

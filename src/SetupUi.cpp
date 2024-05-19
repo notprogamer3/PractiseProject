@@ -281,8 +281,22 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 	}
 }
 
-void Ui::MakeReport(QGraphicsScene *scene, vector<string> Logins) {
-
+void Ui::MakeReport(vector<string> Logins) {
+	// Find labels and set Vals
+	QLabel *IncomeLabel = windows["Report"]->findChild<QLabel *>("IncomeLabel");
+	QLabel *AmmountLabel = windows["Report"]->findChild<QLabel *>("AmmountLabel");
+	QLabel *CountLabel = windows["Report"]->findChild<QLabel *>("CountLabel");
+	int ammount = 0, income = 0, count = Logins.size();
+	for (auto &i: *Deposits) {
+		if (std::find(Logins.begin(), Logins.end(), i->getLogin()) != Logins.end()) {
+			ammount += i->getAmount();
+			income += i->getIncome();
+		}
+	}
+	IncomeLabel->setText(QString::number(income));
+	AmmountLabel->setText(QString::number(ammount));
+	CountLabel->setText(QString::number(count));
+	windows["Report"]->show();
 }
 
 
@@ -294,7 +308,6 @@ void Ui::SetupWindows() {
 	windows["DiagramWindow"] = loadUiFile(nullptr, "../Ui/Диаграмма.ui");
 	windows["DeletingConfirmWindow"] = loadUiFile(nullptr, "../Ui/Потверждение удаления.ui");
 	windows["Report"] = loadUiFile(nullptr, "../Ui/Отчет.ui");
-	windows["Report"]->show();
 	// Create var for graphics
 	QGraphicsScene *scene = new QGraphicsScene;
 	// setup mainwindow
@@ -312,10 +325,19 @@ void Ui::SetupWindows() {
 
 	// TableWindow buttons and functionality
 	qDebug() << "TableWindowINIT";
-	//Change theme
-	QPushButton *ChangeThemeButton = windows["TableWindow"]->findChild<QPushButton *>("ChangeTheme");
-	//TODO сделать эту тему нормально потому что тут у меня просто заглушка под отчет
-	ChangeThemeButton->setText("Создать отчет");
+	//Create report button functionality
+	QPushButton *CreateReport = windows["TableWindow"]->findChild<QPushButton *>("CreateReport");
+	CreateReport->setText("Создать отчет");
+	QObject::connect(CreateReport, &QPushButton::clicked, [=, this]() {
+		vector<string> Logins;
+		QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
+		for (int i = 0; i < Table->rowCount(); i++) {
+			if (dynamic_cast<QCheckBox *>(Table->cellWidget(i, 0))->isChecked()) {
+				Logins.push_back(Table->item(i, 1)->text().toStdString());
+			}
+		}
+		MakeReport(Logins);
+	});
 	//Search
 	QPushButton *seatchButton = windows["TableWindow"]->findChild<QPushButton *>("SearchButton");
 	QObject::connect(seatchButton, &QPushButton::clicked, [this] { TableSearch(); });
