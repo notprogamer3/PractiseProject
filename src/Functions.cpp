@@ -92,20 +92,20 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string lo
         return "Введено неправильное имя. Попробуйте снова";
     }
     // check if Surname doesnt contain numbers
-    if (surname.find_first_not_of("0123456789") != string::npos or surname == "") {
+    if (surname.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_") != string::npos or surname == "") {
         return "Введен неправильный фамилия. Попробуйте снова";
     }
 
     regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
-    //    if (!regex_match(phone, russiaPhoneRegex)) {
-    //    return "Введет неправильный номер телефона. Попробуйте снова";
-    // }
+    if (!regex_match(phone, russiaPhoneRegex)) {
+        return "Введет неправильный номер телефона. Попробуйте снова";
+    }
     // ввод почты
     regex emailRegex(R"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
     // проверка вода почты
-    // if (!regex_match(email, emailRegex)) {
-    //     return "Введена неправильная электронная почта. Попробуйте снова" << endl;
-    // }
+    if (!regex_match(email, emailRegex)) {
+        return "Введена неправильная электронная почта. Попробуйте снова";
+    }
     if (sum <= 0) {
         return "Введена неправильный размер вклада";
     }

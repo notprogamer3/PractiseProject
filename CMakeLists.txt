@@ -10,7 +10,7 @@ set(CMAKE_AUTORCC OFF)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets)
 
-add_compile_options(-Wall -Wextra -Wpedantic -municode)
+#add_compile_options(-Wall -Wextra -Wpedantic -municode)
 
 qt_add_executable(Practica2_QT main.cpp
         src/MenuItem.cpp
@@ -22,6 +22,8 @@ qt_add_executable(Practica2_QT main.cpp
         src/SetupUi.h
         src/SetupUi.cpp
 )
+
+set_property(TARGET Practica2_QT PROPERTY WIN32_EXECUTABLE true)
 
 target_link_libraries(Practica2_QT PUBLIC ${Boost_LIBRARIES}  Qt::Core
         Qt::Gui
