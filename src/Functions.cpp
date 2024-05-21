@@ -88,11 +88,11 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string lo
     }
     string Name_Surname = name + "_" + surname;
     //check if Name doesnt contain numbers
-    if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_") != string::npos or name == "") {
+    if (name.find_first_not_of("абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ") != string::npos or name == "") {
         return "Введено неправильное имя. Попробуйте снова";
     }
     // check if Surname doesnt contain numbers
-    if (surname.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_") != string::npos or surname == "") {
+    if (surname.find_first_not_of("абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ") != string::npos or surname == "") {
         return "Введен неправильный фамилия. Попробуйте снова";
     }
 
