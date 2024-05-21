@@ -3,15 +3,12 @@
 //
 #include "QtUiTools"
 #include "SetupUi.h"
-
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
-
 #include "QWidget"
 #include "string"
 #include "Functions.h"
 #include "Deposit.h"
-#include "unordered_map"
 #include "boost/container/string.hpp"
 
 
@@ -108,10 +105,13 @@ void Ui::DrawTable() {
 			PercentLabel->setText(Percent->text());
 			QLabel *IncomeLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("IncomeLabel");
 			IncomeLabel->setText(Income->text());
+
+			QObject::disconnect(DeleteButton2, nullptr, nullptr, nullptr);
 			windows["DeletingConfirmWindow"]->show();
+
 			QObject::connect(DeleteButton2, &QPushButton::clicked, [=, this]() {
 				qDebug() << "Deleting" << LoginLabel->text();
-				DepositFunctions::Delete(Deposits, Deposits->at(i)->getLogin());
+				DepositFunctions::Delete(Deposits, LoginLabel->text().toStdString());
 				DepositFunctions::SaveData(Deposits);
 				DrawTable();
 				windows["DeletingConfirmWindow"]->close();
@@ -140,11 +140,11 @@ void Ui::TableSearch() {
 	QTableWidget *Table = windows["TableWindow"]->findChild<QTableWidget *>("Table");
 	int temp2;
 	if (type == "Сумма") {
-		temp2 = 6;
+		temp2 = 7;
 	} else if (type == "Сроку") {
-		temp2 = 5;
+		temp2 = 6;
 	} else if (type == "Типу") {
-		temp2 = 4;
+		temp2 = 5;
 	}
 	for (int i = 0; i < Table->rowCount(); ++i) {
 		if (Table->item(i, temp2)->text() != data) {
@@ -239,7 +239,7 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 			Qt::darkBlue
 		};
 		for (int i = Top10.size() - 1; i != -1; i--) {
-			percent = (Top10[i]->getAmount() * 1.0 * 340 * 16) / sum + 32;
+			percent = (Top10[i]->getAmount() * 1.0 * (360 - 2*Top10.size()) * 16) / sum + 32;
 			elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(colors[i]));
 			elips->setStartAngle(startAngle);
 			elips->setSpanAngle(percent);
@@ -267,7 +267,7 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 		percent = (t1 * 1.0 * 360 * 16) / (t1 + t2);
 		elips->setSpanAngle(percent);
 		startAngle += percent;
-		QGraphicsTextItem *text1 = scene->addText(QString::fromStdString("Тип 1"));
+		QGraphicsTextItem *text1 = scene->addText(QString::fromStdString("Стандартный"));
 		text1->setPos(500, -155);
 		text1->setDefaultTextColor(Qt::red);
 		elips = scene->addEllipse(0, -155, 300, 300, QPen(Qt::black), QBrush(Qt::green));
@@ -275,7 +275,7 @@ void Ui::DrawDiagram(QGraphicsScene *scene) {
 		elips->setStartAngle(startAngle);
 		elips->setSpanAngle(percent);
 		startAngle += percent;
-		QGraphicsTextItem *text2 = scene->addText(QString::fromStdString("Тип 2"));
+		QGraphicsTextItem *text2 = scene->addText(QString::fromStdString("Пенсионный"));
 		text2->setPos(500, -135);
 		text2->setDefaultTextColor(Qt::green);
 	}
@@ -439,10 +439,5 @@ void Ui::SetupWindows() {
 			DrawDiagram(scene);
 		}
 	});
-
-	//Report functionality
-	// Create a new QListWidget
-
-	//CreateReport window functionality
 	qDebug() << "ReportWindowINIT";
 }

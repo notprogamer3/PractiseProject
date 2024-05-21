@@ -87,7 +87,16 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string lo
         Login = login;
     }
     string Name_Surname = name + "_" + surname;
-    // regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
+    //check if Name doesnt contain numbers
+    if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_") != string::npos or name == "") {
+        return "Введено неправильное имя. Попробуйте снова";
+    }
+    // check if Surname doesnt contain numbers
+    if (surname.find_first_not_of("0123456789") != string::npos or surname == "") {
+        return "Введен неправильный фамилия. Попробуйте снова";
+    }
+
+    regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
     //    if (!regex_match(phone, russiaPhoneRegex)) {
     //    return "Введет неправильный номер телефона. Попробуйте снова";
     // }
@@ -98,7 +107,7 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string lo
     //     return "Введена неправильная электронная почта. Попробуйте снова" << endl;
     // }
     if (sum <= 0) {
-        return "Введена неправильная сумма";
+        return "Введена неправильный размер вклада";
     }
 
     auto Dep = make_shared<Deposit>(Login, Name_Surname, phone, email, type, time, sum, percent);
