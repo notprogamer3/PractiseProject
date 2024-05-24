@@ -23,6 +23,15 @@ static QWidget *loadUiFile(QWidget *parent, const std::string &path) {
 	return loader.load(&file, parent);
 }
 
+void LockColumnEdit(QTableWidget *table, int column) {
+	for (int i = 0; i < table->rowCount(); ++i) {
+		QTableWidgetItem *item = table->item(i, column);
+		if (item) {
+			item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+		}
+	}
+}
+
 void Ui::ChangeTheme(QPushButton *button) {
 	if (button->text() == "Светлая тема") {
 		QApplication::setStyle("windowsvista");
@@ -84,6 +93,7 @@ void Ui::DrawTable() {
 		Table->setItem(i, 9, Income);
 		QPushButton *DeleteButton = new QPushButton("Удалить");
 		Table->setCellWidget(i, 10, DeleteButton);
+		//aling colimn 0 text to center
 		QObject::connect(DeleteButton, &QPushButton::clicked, [=, this]() {
 			QPushButton *DeleteButton2 = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("DeleteButton");
 			QPushButton *CancelButton = windows["DeletingConfirmWindow"]->findChild<QPushButton *>("CancelButton");
@@ -105,7 +115,6 @@ void Ui::DrawTable() {
 			PercentLabel->setText(Percent->text());
 			QLabel *IncomeLabel = windows["DeletingConfirmWindow"]->findChild<QLabel *>("IncomeLabel");
 			IncomeLabel->setText(Income->text());
-
 			QObject::disconnect(DeleteButton2, nullptr, nullptr, nullptr);
 			windows["DeletingConfirmWindow"]->show();
 
@@ -131,6 +140,7 @@ void Ui::DrawTable() {
 	Table->setColumnWidth(7, 70);
 	Table->setColumnWidth(8, 55);
 	Table->setColumnWidth(9, 70);
+
 }
 
 
@@ -356,6 +366,7 @@ void Ui::SetupWindows() {
 	QRadioButton *radioButton = windows["TableWindow"]->findChild<QRadioButton *>("EditToggle");
 	QObject::connect(radioButton, &QRadioButton::toggled, [=, this](bool checked) {
 		if (checked) {
+			LockColumnEdit(Table, 1);
 			Table->setEditTriggers(QAbstractItemView::DoubleClicked);
 		} else {
 			Table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -421,6 +432,7 @@ void Ui::SetupWindows() {
 				QTableWidgetItem *Time = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 6);
 				QTableWidgetItem *Amount = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 7);
 				QTableWidgetItem *Percent = windows["TableWindow"]->findChild<QTableWidget *>("Table")->item(i, 8);
+				qDebug()<<Login->text().toStdString();
 				//split Name_Surname
 				vector<string> result;
 				boost::split(result, Name_Surname->text().toStdString(), boost::is_any_of("_"));

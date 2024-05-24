@@ -93,10 +93,10 @@ string DepositFunctions::AddDeposit(vector<shared_ptr<Deposit>> *Deps, string lo
     }
     // check if Surname doesnt contain numbers
     if (surname.find_first_not_of("абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ") != string::npos or surname == "") {
-        return "Введен неправильный фамилия. Попробуйте снова";
+        return "Введена неправильная фамилия. Попробуйте снова";
     }
 
-    regex russiaPhoneRegex(R"(^(?:\+7|7|8|9)?(\d{10})$)");
+    regex russiaPhoneRegex(R"(^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$)");
     if (!regex_match(phone, russiaPhoneRegex)) {
         return "Введет неправильный номер телефона. Попробуйте снова";
     }
