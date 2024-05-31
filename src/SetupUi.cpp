@@ -148,7 +148,6 @@ void Ui::TableSearch() {
 	}
 	for (int i = 0; i < Table->rowCount(); ++i) {
 		if (Table->item(i, temp2)->text() != data) {
-			// 4 is the column index for "Type"
 			Table->setRowHidden(i, true);
 		} else {
 			Table->setRowHidden(i, false);

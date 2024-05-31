@@ -154,9 +154,9 @@ void DepositFunctions::TestingData(vector<shared_ptr<Deposit>> *Deps) {
 }
 
 // Поиск вклада по параметру
-vector<shared_ptr<Deposit>> *DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps, string type, string data) {
+vector<int> DepositFunctions::Search(vector<shared_ptr<Deposit>> *Deps, string type, string data) {
     cout << "Введите параметр по которому хотите найти вклад: \n1.Логин\n2.Email\n3.Дата\n4.Тип\n";
-    vector<shared_ptr<Deposit>> Finded;
+    vector<int> Finded = {};
     int temp2;
     // выбор параметра по которому будет производиться поиск
     if (type == "Сумма") {
@@ -168,6 +168,7 @@ vector<shared_ptr<Deposit>> *DepositFunctions::Search(vector<shared_ptr<Deposit>
     }
     shared_ptr<Deposit> temp;
     bool flag = false;
+    int c=0;
     // поиск вклада по параметру
     for (auto &i: *Deps) {
         if ((to_string(i->getAmount()) == data and temp2 == 1) or (to_string(i->getTimeInMonths()) == data and temp2 == 2) or (i->getType() == data and temp2 == 3)) {
@@ -180,14 +181,15 @@ vector<shared_ptr<Deposit>> *DepositFunctions::Search(vector<shared_ptr<Deposit>
             cout << "Размер: " <<i->getAmount() << endl;
             cout << "Процент: " <<i->getPercent() << endl;
             cout << "Доход: " <<i->getIncome() << endl;
-            Finded.push_back(i);
             flag = true;
+            Finded.push_back(c);
         }
+        ++c;
     }
     if (!flag) {
         cout << "Совпадение не найдено" << endl;
     }
-    return &Finded;
+    return Finded;
 //    } else {
 //        cout << "Выберите действие: \n1.Удалить действие \n2.Выйти в меню\n" << endl;
 //        int temp1;

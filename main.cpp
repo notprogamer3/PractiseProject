@@ -1,5 +1,7 @@
 #include <iostream>
 #include <qstylefactory.h>
+#include <QtTest/qtest.h>
+
 #include "vector"
 #include "memory"
 #include "fstream"
@@ -8,6 +10,7 @@
 #include "src/Functions.h"
 #include "QtCore"
 #include "src/SetupUi.h"
+#include "Qt_test/tests.h"
 
 
 
@@ -21,10 +24,12 @@ int main(int argc, char *argv[]) {
     vector<shared_ptr<Deposit>> Deposits;
     DepositFunctions::LoadData(&Deposits);
     QApplication app(argc, argv);
+    QTest::qExec(new TestDeposit, argc, argv);
     qDebug()<<QStyleFactory::keys();
     qDebug()<<app.style();
     app.setStyle("windowsvista");
     Ui ui(&app, &Deposits);
+
 
     return app.exec();
 }

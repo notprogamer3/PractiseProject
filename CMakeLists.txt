@@ -4,12 +4,11 @@ project(Practica2_QT)
 set(CMAKE_CXX_STANDARD 20)
 
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR})
-set(CMAKE_AUTOMOC OFF)
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_AUTORCC OFF)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets)
-
+find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets Test)
 #add_compile_options(-Wall -Wextra -Wpedantic -municode)
 
 qt_add_executable(Practica2_QT main.cpp
@@ -21,11 +20,17 @@ qt_add_executable(Practica2_QT main.cpp
         src/Functions.h
         src/SetupUi.h
         src/SetupUi.cpp
+        Qt_test/tests.h
+        Qt_test/tests.cpp
 )
 
-set_property(TARGET Practica2_QT PROPERTY WIN32_EXECUTABLE true)
+enable_testing(true)
+
+set_property(TARGET Practica2_QT PROPERTY WIN32_EXECUTABLE false)
 
 target_link_libraries(Practica2_QT PUBLIC ${Boost_LIBRARIES}  Qt::Core
         Qt::Gui
         Qt::UiTools
-        Qt::Widgets)
+        Qt::Widgets
+        Qt::Test
+        )
