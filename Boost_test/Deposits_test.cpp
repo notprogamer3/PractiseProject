@@ -4,7 +4,7 @@
 #define BOOST_TEST_MODULE MyProjectTest
 #include <boost/test/included/unit_test.hpp>
 #include "../src/Deposit.h"
-#include "../src/SetupUi.h"
+
 
 BOOST_AUTO_TEST_SUITE(SetupUiTestSuite)
 

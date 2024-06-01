@@ -8,6 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+add_subdirectory(Boost_test)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets Test)
 #add_compile_options(-Wall -Wextra -Wpedantic -municode)
 
