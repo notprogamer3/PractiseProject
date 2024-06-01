@@ -1,7 +1,6 @@
 //
 // Created by rdast on 23.03.2024.
 //
-
 #include "Deposit.h"
 
 using namespace std;
@@ -10,7 +9,6 @@ using namespace std;
 // Created by rdast on 23.03.2024.
 //
 
-#include "Deposit.h"
 
 // конструктор
 Deposit::Deposit(std::string Login, std::string Name_Surname, std::string Phone, std::string Email, std::string Type,
