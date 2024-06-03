@@ -21,8 +21,7 @@ qt_add_executable(Practica2_QT main.cpp
         src/Functions.h
         src/SetupUi.h
         src/SetupUi.cpp
-        Qt_test/tests.h
-        Qt_test/tests.cpp
+        Boost_test/Deposits_test.cpp
 )
 
 enable_testing(true)

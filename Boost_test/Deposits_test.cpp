@@ -4,11 +4,12 @@
 #define BOOST_TEST_MODULE MyProjectTest
 #include <boost/test/included/unit_test.hpp>
 #include "../src/Deposit.h"
+#include "../src/Functions.h"
 
 
 BOOST_AUTO_TEST_SUITE(SetupUiTestSuite)
 
-BOOST_AUTO_TEST_CASE(test_deposit_getters_and_setters)
+    BOOST_AUTO_TEST_CASE(test_deposit_getters_and_setters)
 {
     std::string test_login = "test_login";
     std::string test_name_surname = "test_name_surname";
@@ -31,6 +32,31 @@ BOOST_AUTO_TEST_CASE(test_deposit_getters_and_setters)
     BOOST_CHECK_EQUAL(deposit.getAmount(), test_amount);
     BOOST_CHECK_EQUAL(deposit.getPercent(), test_percent);
     BOOST_CHECK_EQUAL(deposit.getIncome(), test_income);
+}
+
+BOOST_AUTO_TEST_CASE(test_Search)
+{
+    std::string test_login = "test_login";
+    std::string test_name = "test_name";
+    std::string test_surname = "test_surname";
+    std::string test_phone = "test_phone";
+    std::string test_email = "test_email";
+    std::string test_type = "test_type";
+    int test_time_in_months = 12;
+    int test_amount = 1000;
+    int test_percent = 5;
+    int test_income = 50;
+
+
+    std::vector<shared_ptr<Deposit>> deposits;
+    //string login, string name, string surname, string phone, string email, string type, int sum, int time, int percent
+    shared_ptr<Deposit> dep = make_shared<Deposit>(test_login, test_name+test_surname, test_phone, test_email, test_type, test_amount, test_time_in_months, test_percent);
+    deposits.push_back(dep);
+    string datas = "1000";
+    vector<int> Finded = DepositFunctions::Search(&deposits, "Сумма", datas);
+    for (int i : Finded) {
+        BOOST_CHECK_EQUAL(deposits[i]->getAmount(), 1000);
+    }
 }
 
 BOOST_AUTO_TEST_SUITE_END()

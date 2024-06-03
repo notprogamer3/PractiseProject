@@ -17,7 +17,7 @@
 using namespace std;
 
 
-int main(int argc, char *argv[]) {
+int maind(int argc, char *argv[]) {
     ofstream fout("data.txt", ios::app);
     fout.close();
 
