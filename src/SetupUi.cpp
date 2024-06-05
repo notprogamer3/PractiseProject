@@ -450,5 +450,54 @@ void Ui::SetupWindows() {
 			DrawDiagram(scene);
 		}
 	});
+
+
+	// Switch backgroung color buttons for addDepositWindow
+	QRadioButton *BackgroundWhite = windows["AddDepositWindow"]->findChild<QRadioButton *>("BackgroundWhite");
+	QRadioButton *BackgroundRed = windows["AddDepositWindow"]->findChild<QRadioButton *>("BackgroundRed");
+	QRadioButton *BackgroundGreen = windows["AddDepositWindow"]->findChild<QRadioButton *>("BackgroundGreen");
+	//Switching background color
+	QObject::connect(BackgroundWhite, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("background-color: white;");
+		}
+	});
+	QObject::connect(BackgroundRed, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("background-color: red;");
+		}
+	});
+	QObject::connect(BackgroundGreen, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("background-color: green;");
+		}
+	});
+
+	//switch label collor buttons for addDepositWindow
+	QRadioButton *LabelBlack = windows["AddDepositWindow"]->findChild<QRadioButton *>("LabelBlack");
+	QRadioButton *LabelRed = windows["AddDepositWindow"]->findChild<QRadioButton *>("LabelRed");
+	QRadioButton *LabelGreen = windows["AddDepositWindow"]->findChild<QRadioButton *>("LabelGreen");
+
+	// Switching label color
+	QObject::connect(LabelBlack, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("QLabel { color : black; }");
+		}
+	});
+	QObject::connect(LabelRed, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("QLabel { color : red; }");
+		}
+	});
+	QObject::connect(LabelGreen, &QRadioButton::toggled, [=, this](bool checked) {
+		if (checked) {
+			windows["AddDepositWindow"]->setStyleSheet("QLabel { color : green; }");
+		}
+	});
+
+
+
+
+
 	qDebug() << "ReportWindowINIT";
 }

@@ -55,8 +55,8 @@ class DepositFunctions {
     + Delete(Deps : vector<shared_ptr<Deposit>>*, Login : string) : void
 }
 
-Deposit --o Ui
-Deposit  --o DepositFunctions
-Ui o--  DepositFunctions
+Deposit "1" -- "0..*" Ui : contains
+Deposit "1" -- "0..*" DepositFunctions : contains
+Ui "1" -- "0..*"  DepositFunctions : contains
 
 @enduml

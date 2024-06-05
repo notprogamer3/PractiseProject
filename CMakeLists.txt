@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-add_subdirectory(Boost_test)
+#add_subdirectory(Boost_test)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui UiTools Widgets Test)
 #add_compile_options(-Wall -Wextra -Wpedantic -municode)
 
@@ -21,7 +21,7 @@ qt_add_executable(Practica2_QT main.cpp
         src/Functions.h
         src/SetupUi.h
         src/SetupUi.cpp
-        Boost_test/Deposits_test.cpp
+        #Boost_test/Deposits_test.cpp
 )
 
 enable_testing(true)

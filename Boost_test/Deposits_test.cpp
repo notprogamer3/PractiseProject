@@ -49,7 +49,6 @@ BOOST_AUTO_TEST_CASE(test_Search)
 
 
     std::vector<shared_ptr<Deposit>> deposits;
-    //string login, string name, string surname, string phone, string email, string type, int sum, int time, int percent
     shared_ptr<Deposit> dep = make_shared<Deposit>(test_login, test_name+test_surname, test_phone, test_email, test_type, test_amount, test_time_in_months, test_percent);
     deposits.push_back(dep);
     string datas = "1000";
